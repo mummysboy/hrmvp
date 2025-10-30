@@ -1,0 +1,53 @@
+/**
+ * Sunset Coral Theme
+ * Warm, inviting aesthetic inspired by sunset colors
+ * Use: Add class="theme-sunset-coral" to <html> element
+ */
+
+:root.theme-sunset-coral {
+  /* PRIMARY ACCENT - Coral & Sunset */
+  --color-accent-primary: #F97316;        /* Warm orange */
+  --color-accent-secondary: #FB7185;      /* Coral pink */
+  --color-accent-tertiary: #FCA5A5;       /* Light coral */
+  
+  /* STATUS COLORS - Warm Palette */
+  --color-success: #EA580C;               /* Deep orange */
+  --color-warning: #FCD34D;               /* Warm gold */
+  --color-danger: #DC2626;                /* Red */
+  --color-info: #06B6D4;                  /* Cyan (contrast) */
+  
+  /* BACKGROUNDS - Warm Peach Tones */
+  --color-bg-primary: #FEF2F2;            /* Very light rose */
+  --color-bg-secondary: #FCE7F3;          /* Light coral */
+  --color-bg-tertiary: #FBDFE8;           /* Soft pink */
+  
+  /* TEXT - Deep Orange-Brown */
+  --color-text-primary: #7C2D12;          /* Deep orange */
+  --color-text-secondary: #9A3412;        /* Medium orange */
+  --color-text-tertiary: #B45309;         /* Light brown */
+  
+  /* BORDERS - Coral Tones */
+  --color-border: #F97316;                /* Orange */
+  --color-border-light: #FCA5A5;          /* Light coral */
+  --color-border-dark: #EA580C;           /* Deep orange */
+}
+
+/* Optional: Dark mode variant for this theme */
+@media (prefers-color-scheme: dark) {
+  :root.theme-sunset-coral {
+    --color-bg-primary: #3E1F12;          /* Deep rust */
+    --color-bg-secondary: #5A3A2A;        /* Medium rust */
+    --color-bg-tertiary: #6D4C41;         /* Lighter rust */
+    
+    --color-text-primary: #FFBB99;        /* Light coral */
+    --color-text-secondary: #FFDBCC;      /* Peach */
+    --color-text-tertiary: #FFBB99;       /* Warm peach */
+    
+    --color-border: #F97316;              /* Orange */
+    --color-border-light: #FB7185;        /* Coral pink */
+    --color-border-dark: #FCD34D;         /* Gold */
+  }
+}
+
+
+

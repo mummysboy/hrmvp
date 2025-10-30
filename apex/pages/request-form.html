@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Request - College HR System</title>
+  <link rel="stylesheet" href="../static/css/design-system.css">
+  <!-- Theme Files to match Dashboard -->
+  <link rel="stylesheet" href="../themes/theme-modern-minimal.css">
+  <link rel="stylesheet" href="../themes/theme-warm-earth.css">
+  <link rel="stylesheet" href="../themes/theme-ocean-breeze.css">
+  <link rel="stylesheet" href="../themes/theme-forest-green.css">
+  <link rel="stylesheet" href="../themes/theme-vibrant-tech.css">
+  <link rel="stylesheet" href="../themes/theme-professional-navy.css">
+  <link rel="stylesheet" href="../themes/theme-sunset-coral.css">
+  <style>
+    body {
+      padding: var(--spacing-xl);
+      background-color: var(--color-bg-primary);
+    }
+    
+    body.embedded {
+      padding: var(--spacing-md);
+      overflow-y: auto;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Dashboard theme when embedded */
+    /* Uses global .theme-dashboard overrides; keep here for clarity */
+
+    .navbar, .breadcrumb {
+      display: block;
+    }
+    
+    body.embedded .navbar,
+    body.embedded .breadcrumb {
+      display: none;
+    }
+
+    .breadcrumb {
+      margin-bottom: var(--spacing-2xl);
+      font-size: var(--font-size-sm);
+    }
+
+    .breadcrumb a {
+      color: var(--color-accent-primary);
+      text-decoration: none;
+    }
+
+    .form-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    body.embedded .form-container {
+      max-width: 100%;
+      padding-bottom: 2rem;
+    }
+
+    .page-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .page-header h1 {
+      margin-bottom: var(--spacing-sm);
+      font-size: var(--font-size-4xl);
+      color: #2C2C2C; /* Sleek dark gray - matching dashboard */
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .page-header p {
+      font-size: var(--font-size-lg);
+      color: #666666; /* Subtle gray - matching dashboard */
+    }
+
+    .form-section {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .form-section-title {
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      color: var(--color-text-primary);
+    }
+
+    /* Two-column field layout inside sections */
+    .form-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--spacing-lg);
+    }
+
+    @media (max-width: 992px) {
+      .form-columns { grid-template-columns: 1fr; }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: var(--spacing-md);
+      justify-content: flex-end;
+      padding: var(--spacing-lg);
+      border-top: 1px solid var(--color-border-light);
+      position: sticky;
+      bottom: 0;
+      background: linear-gradient(to top, var(--color-bg-primary), rgba(255,255,255,0.85));
+      backdrop-filter: blur(4px);
+      z-index: 1;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #review-section {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .review-section {
+      margin-bottom: 2rem;
+    }
+
+    .review-section-title {
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      color: var(--color-text-primary);
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 2px solid #A51C30;
+    }
+
+    .review-field {
+      display: flex;
+      padding: var(--spacing-md) 0;
+      border-bottom: 1px solid var(--color-border-light);
+      gap: 1.5rem;
+    }
+
+    .review-field:last-child {
+      border-bottom: none;
+    }
+
+    .review-field-label {
+      min-width: 180px;
+      font-weight: 600;
+      color: #2C2C2C;
+      font-size: var(--font-size-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .review-field-value {
+      flex: 1;
+      color: #666666;
+      font-size: var(--font-size-base);
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    /* Sleek Professional Button Styles - matching dashboard */
+    .btn-primary {
+      background: #A51C30 !important; /* Harvard red */
+      background-color: #A51C30 !important;
+      color: #FFFFFF !important;
+      border: none !important;
+      box-shadow: 0 1px 3px rgba(165, 28, 48, 0.2) !important;
+    }
+    
+    .btn-primary:hover {
+      background: #8B1627 !important;
+      background-color: #8B1627 !important;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(165, 28, 48, 0.3) !important;
+    }
+    
+    /* Add red accent to form focus states */
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #A51C30 !important;
+      box-shadow: 0 0 0 3px rgba(165, 28, 48, 0.1) !important;
+    }
+    
+    .btn-secondary {
+      background-color: #FFFFFF !important;
+      color: #2C2C2C !important;
+      border: 1px solid #E5E5E5 !important;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #F8F8F8 !important;
+      border-color: #D0D0D0 !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" style="margin-bottom: var(--spacing-2xl); padding: var(--spacing-md) 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0;">College HR System</h3>
+      <div style="display: flex; gap: var(--spacing-lg);">
+        <a href="dashboard.html" style="color: var(--color-text-secondary); text-decoration: none;">Dashboard</a>
+        <a href="requests-list.html" style="color: var(--color-text-secondary); text-decoration: none;">My Requests</a>
+        <a href="approvals.html" style="color: var(--color-text-secondary); text-decoration: none;">Approvals</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Dashboard</a> / 
+    <a href="requests-list.html">Requests</a> / 
+    <span id="breadcrumb-title">New Request</span>
+  </div>
+
+  <!-- Main Form Container -->
+  <div class="form-container">
+    <div class="page-header">
+      <h1 id="page-title">New Request</h1>
+      <p id="page-description">Fill in the details below to submit a new HR request</p>
+    </div>
+
+    <div class="card">
+      <form id="requestForm">
+        <!-- Basic Information Section -->
+        <div class="form-section">
+          <div class="form-section-title">Request Details</div>
+          <div class="form-columns">
+            <div class="form-group">
+              <label class="label-required">Request Type</label>
+              <select id="requestType" disabled>
+                <option id="type-label" value=""></option>
+              </select>
+              <div class="form-help">Type is determined by your selection</div>
+            </div>
+
+            <div class="form-group">
+              <label class="label-required">Department</label>
+              <select id="department" required>
+                <option value="">Select Department</option>
+                <option value="Physics">Physics</option>
+                <option value="Engineering">Engineering</option>
+                <option value="History">History</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Research Administration">Research Administration</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="label-required">Title</label>
+            <input type="text" id="title" placeholder="e.g., Senior Research Scientist" required>
+            <div class="form-help">Brief title for this request</div>
+          </div>
+
+          <div class="form-group">
+            <label class="label-required">Description</label>
+            <textarea id="description" placeholder="Provide details about your request..." required></textarea>
+            <div class="form-help">Explain the purpose and details of this request</div>
+          </div>
+        </div>
+
+        <!-- Type-Specific Fields -->
+        <div id="position-fields" class="form-section hidden">
+          <div class="form-section-title">Position Details</div>
+
+          <div class="form-columns">
+            <div class="form-group">
+              <label class="label-required">Salary Range</label>
+              <input type="text" id="salary" placeholder="e.g., $120,000 - $150,000">
+            </div>
+            <div class="form-group">
+              <label class="label-required">Start Date</label>
+              <input type="date" id="startDate">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Employee Name</label>
+            <input type="text" id="employeeNameNewPosition" placeholder="Name of intended hire (optional)">
+          </div>
+
+          <div class="form-columns">
+            <div class="form-group">
+              <label class="label-required">Hours per Week</label>
+              <input type="number" id="hoursPerWeek" min="1" max="168" value="40" placeholder="e.g., 40" required>
+            </div>
+            <div class="form-group">
+              <label>End Date (if temporary)</label>
+              <input type="date" id="endDate">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="label-required">Reports To</label>
+            <input type="text" id="reportsTo" placeholder="Manager or Title" required>
+          </div>
+        </div>
+
+        <div id="promotion-fields" class="form-section hidden">
+          <div class="form-section-title">Promotion Details</div>
+
+          <div class="form-group">
+            <label class="label-required">Employee Name</label>
+            <input type="text" id="employeeName" placeholder="Name of person being promoted" required>
+          </div>
+
+          <div class="form-group">
+            <label class="label-required">Current Position</label>
+            <input type="text" id="currentPosition" placeholder="e.g., Associate Professor" required>
+          </div>
+
+          <div class="form-group">
+            <label class="label-required">Promoted To</label>
+            <input type="text" id="promotedTo" placeholder="e.g., Full Professor" required>
+          </div>
+        </div>
+
+        <div id="sabbatical-fields" class="form-section hidden">
+          <div class="form-section-title">Sabbatical Details</div>
+
+          <div class="form-columns">
+            <div class="form-group">
+              <label class="label-required">Duration</label>
+              <select id="duration" required>
+                <option value="">Select Duration</option>
+                <option value="6 months">6 months</option>
+                <option value="12 months">12 months (1 year)</option>
+                <option value="18 months">18 months</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="label-required">Start Date</label>
+              <input type="date" id="sabbaticalStartDate" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Research Focus / Purpose</label>
+            <textarea id="sabbaticalPurpose" placeholder="Describe your research plans or other sabbatical activities..."></textarea>
+          </div>
+        </div>
+
+        <div id="appointment-fields" class="form-section hidden">
+          <div class="form-section-title">Appointment Details</div>
+
+          <div class="form-group">
+            <label class="label-required">Person Name</label>
+            <input type="text" id="appointeeName" placeholder="Name of person being appointed" required>
+          </div>
+
+          <div class="form-columns">
+            <div class="form-group">
+              <label class="label-required">Position Title</label>
+              <input type="text" id="appointmentPosition" placeholder="e.g., Department Chair" required>
+            </div>
+            <div class="form-group">
+              <label class="label-required">Effective Date</label>
+              <input type="date" id="appointmentEffectiveDate" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Notes -->
+        <div class="form-section">
+          <div class="form-section-title">Additional Information</div>
+
+          <div class="form-group">
+            <label>Additional Notes</label>
+            <textarea id="notes" placeholder="Any additional information or context..."></textarea>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+          <button type="button" class="btn btn-secondary" id="save-draft-btn">Save as Draft</button>
+          <button type="button" class="btn btn-primary" id="continue-review-btn">Continue to Review</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Review Section (initially hidden) -->
+    <div id="review-section" class="hidden" style="display: none;">
+      <div class="page-header">
+        <h1 id="review-title">Review Your Request</h1>
+      </div>
+
+      <div class="card" id="review-card">
+        <!-- Review content will be generated here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../static/js/ui.js"></script>
+  <script src="../static/js/session-store.js"></script>
+  <script>
+    // Get existing request id if editing
+    function getEditingId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+    // Get request type from URL
+    function getRequestType() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('type') || 'NEW_POSITION';
+    }
+
+    // Check if the form is embedded in a modal iframe
+    function isEmbedded() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('embed') === 'true' || window.top !== window.self;
+    }
+
+    // Initialize form based on request type (or existing request)
+    function initializeForm() {
+      // Add embedded class to body if embedded
+      if (isEmbedded()) {
+        document.body.classList.add('embedded', 'theme-dashboard');
+      }
+      
+      try {
+        console.log('📝 Initializing form...');
+        
+        if (typeof SessionStore === 'undefined') {
+          UIKit.toast.error('Data system not ready. Refreshing...');
+          setTimeout(() => window.location.reload(), 2000);
+          return;
+        }
+
+        const editingId = getEditingId();
+        const existing = editingId ? SessionStore.getRequest(editingId) : null;
+        const requestType = existing ? existing.type : getRequestType();
+        console.log('Request type:', requestType);
+
+        // Set form title and description
+        let title = 'New Request';
+        let description = 'Fill in the details below';
+
+        switch(requestType) {
+          case 'NEW_POSITION':
+            title = 'New Position Request';
+            description = 'Request a new position for your department';
+            showFields(['position-fields']);
+            break;
+          case 'PROMOTION':
+            title = 'Faculty Promotion Request';
+            description = 'Submit a promotion request for faculty member';
+            showFields(['promotion-fields']);
+            break;
+          case 'SABBATICAL':
+            title = 'Sabbatical Leave Request';
+            description = 'Request sabbatical leave for research or other activities';
+            showFields(['sabbatical-fields']);
+            break;
+          case 'APPOINTMENT':
+            title = 'New Appointment Request';
+            description = 'Request a new appointment (e.g., Department Chair)';
+            showFields(['appointment-fields']);
+            break;
+        }
+
+        // If editing, adjust titles
+        if (existing) {
+          title = `Edit ${title}`;
+          description = 'Update the fields below and resubmit';
+        }
+
+        document.getElementById('page-title').textContent = title;
+        document.getElementById('page-description').textContent = description;
+        document.getElementById('breadcrumb-title').textContent = title;
+        // Format request type label in normal case (not ALL CAPS) and capitalize first letter
+        const formattedType = requestType.replace(/_/g, ' ').toLowerCase()
+          .replace(/\b\w/g, c => c.toUpperCase());
+        const typeLabelEl = document.getElementById('type-label');
+        if (typeLabelEl) {
+          typeLabelEl.textContent = formattedType;
+          typeLabelEl.value = requestType;
+        }
+        document.getElementById('requestType').value = requestType;
+        document.title = `${title} - College HR System`;
+
+        // Prefill if editing existing
+        if (existing) {
+          // Basic
+          document.getElementById('title').value = existing.title || '';
+          document.getElementById('description').value = existing.description || '';
+          document.getElementById('department').value = existing.department || '';
+          // Type specific
+          if (existing.type === 'NEW_POSITION') {
+            document.getElementById('salary').value = existing.salary || '';
+            document.getElementById('startDate').value = existing.startDate || '';
+            document.getElementById('employeeNameNewPosition').value = existing.employeeName || '';
+            document.getElementById('hoursPerWeek').value = existing.hoursPerWeek || '';
+            document.getElementById('endDate').value = existing.endDate || '';
+            document.getElementById('reportsTo').value = existing.reportsTo || '';
+          } else if (existing.type === 'PROMOTION') {
+            document.getElementById('employeeName').value = existing.employeeName || '';
+            document.getElementById('currentPosition').value = existing.currentPosition || '';
+            document.getElementById('promotedTo').value = existing.promotedTo || '';
+          } else if (existing.type === 'SABBATICAL') {
+            document.getElementById('duration').value = existing.duration || '';
+            document.getElementById('sabbaticalStartDate').value = existing.startDate || '';
+            document.getElementById('sabbaticalPurpose').value = existing.sabbaticalPurpose || '';
+          } else if (existing.type === 'APPOINTMENT') {
+            document.getElementById('appointeeName').value = existing.appointeeName || '';
+            document.getElementById('appointmentPosition').value = existing.appointmentPosition || '';
+            document.getElementById('appointmentEffectiveDate').value = existing.startDate || '';
+          }
+          document.getElementById('notes').value = existing.notes || '';
+        }
+      } catch (error) {
+        console.error('Error initializing form:', error);
+        UIKit.toast.error('Failed to initialize form');
+      }
+    }
+
+    // Show/hide type-specific fields
+    function showFields(fieldsToShow) {
+      const allFields = ['position-fields', 'promotion-fields', 'sabbatical-fields', 'appointment-fields'];
+      allFields.forEach(field => {
+        const el = document.getElementById(field);
+        if (el) {
+          if (fieldsToShow.includes(field)) {
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        }
+      });
+    }
+
+    // Handle continue to review button click
+    function handleContinueToReview() {
+      console.log('📝 Continue to Review button clicked');
+      const form = document.getElementById('requestForm');
+      if (!form) {
+        console.error('❌ Form not found!');
+        UIKit.toast.error('Form not found. Please refresh the page.');
+        return;
+      }
+
+      // Trigger validation and review process
+      const requestType = getRequestType();
+      console.log('Request type:', requestType);
+      
+      // Custom validation - only check visible, enabled required fields
+      let isValid = true;
+      const requiredFields = form.querySelectorAll('[required]');
+      const invalidFields = [];
+      
+      requiredFields.forEach(field => {
+        // Check if field is visible and enabled (not hidden, not disabled)
+        const isVisible = field.offsetParent !== null && 
+                         !field.closest('.hidden') && 
+                         !field.closest('[style*="display: none"]');
+        const isEnabled = !field.disabled && !field.readOnly;
+        
+        // Skip disabled or hidden fields - they can't be validated/focused
+        if (!isEnabled || !isVisible) {
+          field.setCustomValidity('');
+          return;
+        }
+        
+        if (!field.value.trim()) {
+          isValid = false;
+          invalidFields.push(field);
+          field.setCustomValidity('This field is required');
+        } else {
+          field.setCustomValidity('');
+        }
+      });
+      
+      console.log('Form valid?', isValid);
+      console.log('Invalid fields:', invalidFields.length);
+      
+      if (!isValid) {
+        console.log('❌ Form validation failed');
+        console.log('Invalid fields details:', invalidFields.map(f => ({ id: f.id, name: f.name, value: f.value })));
+        // Report validity on first invalid field
+        if (invalidFields.length > 0) {
+          invalidFields[0].reportValidity();
+          invalidFields[0].focus();
+          UIKit.toast.error('Please fill in all required fields');
+        } else {
+          form.reportValidity();
+        }
+        return;
+      }
+      
+      // Also do native validation as backup, but skip disabled/hidden fields
+      // Native validation can fail on hidden/disabled required fields, so we check manually
+      const allRequiredFields = form.querySelectorAll('[required]');
+      let nativeValidationPassed = true;
+      
+      for (const field of allRequiredFields) {
+        const isVisible = field.offsetParent !== null && 
+                         !field.closest('.hidden') && 
+                         !field.closest('[style*="display: none"]');
+        const isEnabled = !field.disabled && !field.readOnly;
+        
+        // Only validate visible, enabled fields
+        if (isEnabled && isVisible && !field.value.trim()) {
+          nativeValidationPassed = false;
+          // If we already marked this in our custom validation, skip
+          if (!invalidFields.includes(field)) {
+            console.log('❌ Native validation found invalid field:', field.id || field.name);
+            field.setCustomValidity('This field is required');
+          }
+        }
+      }
+      
+      if (!nativeValidationPassed) {
+        console.log('❌ Native form validation failed');
+        if (invalidFields.length > 0) {
+          invalidFields[0].reportValidity();
+        } else {
+          form.reportValidity();
+        }
+        return;
+      }
+      
+      console.log('✅ All validation passed');
+      
+      console.log('✅ Form is valid, showing review page...');
+      // Show review page
+      try {
+        showReviewPage();
+      } catch (error) {
+        console.error('❌ Error showing review page:', error);
+        UIKit.toast.error('Failed to show review page. Please try again.');
+      }
+    }
+
+    // Setup form submission handler and button event listeners
+    function setupFormHandler() {
+      const form = document.getElementById('requestForm');
+      if (form) {
+        console.log('✅ Form submission handler attached');
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          // Use the same handler function
+          handleContinueToReview();
+        });
+      } else {
+        console.error('❌ Form not found!');
+      }
+
+      // Attach button click handlers programmatically
+      const continueBtn = document.getElementById('continue-review-btn');
+      if (continueBtn) {
+        console.log('✅ Continue button found, attaching click handler');
+        // Remove any existing listeners by cloning
+        const newBtn = continueBtn.cloneNode(true);
+        continueBtn.parentNode.replaceChild(newBtn, continueBtn);
+        
+        // Attach listener to new button
+        const actualBtn = document.getElementById('continue-review-btn');
+        actualBtn.addEventListener('click', function(e) {
+          console.log('🖱️ Continue button clicked!');
+          e.preventDefault();
+          e.stopPropagation();
+          try {
+            handleContinueToReview();
+          } catch (error) {
+            console.error('❌ Error in handleContinueToReview:', error);
+            UIKit.toast.error('Error processing request: ' + error.message);
+          }
+        });
+        console.log('✅ Click handler attached successfully');
+      } else {
+        console.error('❌ Continue button not found!');
+        // Try to find it by class or text content as fallback
+        const buttons = document.querySelectorAll('.btn-primary');
+        console.log('Found', buttons.length, 'primary buttons');
+        buttons.forEach(btn => {
+          if (btn.textContent.trim() === 'Continue to Review') {
+            console.log('✅ Found button by text content, attaching handler');
+            btn.addEventListener('click', function(e) {
+              console.log('🖱️ Continue button clicked (via text match)!');
+              e.preventDefault();
+              e.stopPropagation();
+              try {
+                handleContinueToReview();
+              } catch (error) {
+                console.error('❌ Error in handleContinueToReview:', error);
+                UIKit.toast.error('Error processing request: ' + error.message);
+              }
+            });
+          }
+        });
+      }
+
+      const cancelBtn = document.getElementById('cancel-btn');
+      if (cancelBtn) {
+        cancelBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          goBack();
+        });
+      }
+
+      const saveDraftBtn = document.getElementById('save-draft-btn');
+      if (saveDraftBtn) {
+        saveDraftBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          saveDraft();
+        });
+      }
+    }
+
+    // Build request data from form
+    function buildRequestData() {
+      try {
+        const requestType = getRequestType();
+        console.log('🔨 Building request data for type:', requestType);
+        
+        const titleEl = document.getElementById('title');
+        const descEl = document.getElementById('description');
+        const deptEl = document.getElementById('department');
+        
+        if (!titleEl || !descEl || !deptEl) {
+          console.error('❌ Basic form fields not found');
+          return null;
+        }
+        
+        const requestData = {
+          title: titleEl.value || '',
+          type: requestType,
+          description: descEl.value || '',
+          department: deptEl.value || '',
+        };
+        
+        console.log('📋 Basic data:', { title: requestData.title, type: requestData.type, department: requestData.department });
+
+        // Add type-specific fields
+        if (requestType === 'NEW_POSITION') {
+          requestData.salary = document.getElementById('salary')?.value || '';
+          requestData.startDate = document.getElementById('startDate')?.value || '';
+          requestData.employeeName = document.getElementById('employeeNameNewPosition')?.value || '';
+          requestData.hoursPerWeek = document.getElementById('hoursPerWeek')?.value || '';
+          requestData.endDate = document.getElementById('endDate')?.value || '';
+          requestData.reportsTo = document.getElementById('reportsTo')?.value || '';
+          console.log('📋 New Position fields collected');
+        } else if (requestType === 'PROMOTION') {
+          requestData.employeeName = document.getElementById('employeeName')?.value || '';
+          requestData.currentPosition = document.getElementById('currentPosition')?.value || '';
+          requestData.promotedTo = document.getElementById('promotedTo')?.value || '';
+          console.log('📋 Promotion fields collected:', {
+            employeeName: requestData.employeeName,
+            currentPosition: requestData.currentPosition,
+            promotedTo: requestData.promotedTo
+          });
+        } else if (requestType === 'SABBATICAL') {
+          requestData.duration = document.getElementById('duration')?.value || '';
+          requestData.startDate = document.getElementById('sabbaticalStartDate')?.value || '';
+          requestData.sabbaticalPurpose = document.getElementById('sabbaticalPurpose')?.value || '';
+          console.log('📋 Sabbatical fields collected:', {
+            duration: requestData.duration,
+            startDate: requestData.startDate,
+            purpose: requestData.sabbaticalPurpose
+          });
+        } else if (requestType === 'APPOINTMENT') {
+          requestData.appointeeName = document.getElementById('appointeeName')?.value || '';
+          requestData.appointmentPosition = document.getElementById('appointmentPosition')?.value || '';
+          requestData.startDate = document.getElementById('appointmentEffectiveDate')?.value || '';
+          console.log('📋 Appointment fields collected:', {
+            appointeeName: requestData.appointeeName,
+            appointmentPosition: requestData.appointmentPosition,
+            startDate: requestData.startDate
+          });
+        }
+
+        // Add additional notes
+        const notesEl = document.getElementById('notes');
+        if (notesEl && notesEl.value) {
+          requestData.notes = notesEl.value;
+        }
+        
+        console.log('✅ Request data built successfully:', requestData);
+        return requestData;
+      } catch (error) {
+        console.error('Error building request data:', error);
+        UIKit.toast.error('Failed to collect form data');
+        return null;
+      }
+    }
+
+    // Store form data globally for review
+    let reviewData = null;
+
+    // Show review page instead of form
+    function showReviewPage() {
+      console.log('📋 Starting review process...');
+      const data = buildRequestData();
+      if (!data) {
+        console.error('❌ Failed to build request data');
+        return;
+      }
+      console.log('✅ Request data built:', data);
+      
+      // Store data for submission
+      reviewData = data;
+      
+      // Build review HTML
+      let reviewHtml = '';
+      
+      // Main Details Section
+      reviewHtml += '<div class="review-section"><div class="review-section-title">Request Details</div>';
+      reviewHtml += `<div class="review-field"><div class="review-field-label">Title</div><div class="review-field-value">${escapeHtml(data.title || '-')}</div></div>`;
+      // Format type in title case (not ALL CAPS)
+      const formattedType = data.type.replace(/_/g, ' ').toLowerCase()
+        .replace(/\b\w/g, c => c.toUpperCase());
+      reviewHtml += `<div class="review-field"><div class="review-field-label">Type</div><div class="review-field-value">${escapeHtml(formattedType)}</div></div>`;
+      reviewHtml += `<div class="review-field"><div class="review-field-label">Department</div><div class="review-field-value">${escapeHtml(data.department || '-')}</div></div>`;
+      if (data.description) {
+        reviewHtml += `<div class="review-field"><div class="review-field-label">Description</div><div class="review-field-value">${escapeHtml(data.description)}</div></div>`;
+      }
+      reviewHtml += '</div>';
+
+      // Type-Specific Details
+      if (data.type === 'NEW_POSITION') {
+        reviewHtml += '<div class="review-section"><div class="review-section-title">Position Details</div>';
+        if (data.salary) reviewHtml += `<div class="review-field"><div class="review-field-label">Salary</div><div class="review-field-value">${escapeHtml(data.salary)}</div></div>`;
+        if (data.startDate) reviewHtml += `<div class="review-field"><div class="review-field-label">Start Date</div><div class="review-field-value">${escapeHtml(data.startDate)}</div></div>`;
+        if (data.endDate) reviewHtml += `<div class="review-field"><div class="review-field-label">End Date</div><div class="review-field-value">${escapeHtml(data.endDate)}</div></div>`;
+        if (data.hoursPerWeek) reviewHtml += `<div class="review-field"><div class="review-field-label">Hours per Week</div><div class="review-field-value">${escapeHtml(data.hoursPerWeek)}</div></div>`;
+        if (data.reportsTo) reviewHtml += `<div class="review-field"><div class="review-field-label">Reports To</div><div class="review-field-value">${escapeHtml(data.reportsTo)}</div></div>`;
+        if (data.employeeName) reviewHtml += `<div class="review-field"><div class="review-field-label">Employee Name</div><div class="review-field-value">${escapeHtml(data.employeeName)}</div></div>`;
+        reviewHtml += '</div>';
+      } else if (data.type === 'PROMOTION') {
+        reviewHtml += '<div class="review-section"><div class="review-section-title">Promotion Details</div>';
+        if (data.employeeName) reviewHtml += `<div class="review-field"><div class="review-field-label">Employee Name</div><div class="review-field-value">${escapeHtml(data.employeeName)}</div></div>`;
+        if (data.currentPosition) reviewHtml += `<div class="review-field"><div class="review-field-label">Current Position</div><div class="review-field-value">${escapeHtml(data.currentPosition)}</div></div>`;
+        if (data.promotedTo) reviewHtml += `<div class="review-field"><div class="review-field-label">Promoted To</div><div class="review-field-value">${escapeHtml(data.promotedTo)}</div></div>`;
+        reviewHtml += '</div>';
+      } else if (data.type === 'SABBATICAL') {
+        reviewHtml += '<div class="review-section"><div class="review-section-title">Sabbatical Details</div>';
+        if (data.duration) reviewHtml += `<div class="review-field"><div class="review-field-label">Duration</div><div class="review-field-value">${escapeHtml(data.duration)}</div></div>`;
+        if (data.startDate) reviewHtml += `<div class="review-field"><div class="review-field-label">Start Date</div><div class="review-field-value">${escapeHtml(data.startDate)}</div></div>`;
+        if (data.sabbaticalPurpose) reviewHtml += `<div class="review-field"><div class="review-field-label">Research Focus / Purpose</div><div class="review-field-value">${escapeHtml(data.sabbaticalPurpose)}</div></div>`;
+        reviewHtml += '</div>';
+      } else if (data.type === 'APPOINTMENT') {
+        reviewHtml += '<div class="review-section"><div class="review-section-title">Appointment Details</div>';
+        if (data.appointeeName) reviewHtml += `<div class="review-field"><div class="review-field-label">Person Name</div><div class="review-field-value">${escapeHtml(data.appointeeName)}</div></div>`;
+        if (data.appointmentPosition) reviewHtml += `<div class="review-field"><div class="review-field-label">Position Title</div><div class="review-field-value">${escapeHtml(data.appointmentPosition)}</div></div>`;
+        if (data.startDate) reviewHtml += `<div class="review-field"><div class="review-field-label">Effective Date</div><div class="review-field-value">${escapeHtml(data.startDate)}</div></div>`;
+        reviewHtml += '</div>';
+      }
+
+      // Additional Notes
+      if (data.notes) {
+        reviewHtml += '<div class="review-section"><div class="review-section-title">Additional Information</div>';
+        reviewHtml += `<div class="review-field"><div class="review-field-label">Notes</div><div class="review-field-value">${escapeHtml(data.notes)}</div></div>`;
+        reviewHtml += '</div>';
+      }
+
+      // Add action buttons
+      reviewHtml += '<div class="form-actions">';
+      reviewHtml += '<button type="button" class="btn btn-secondary" id="edit-btn">Edit</button>';
+      reviewHtml += '<button type="button" class="btn btn-primary" id="submit-btn">Confirm & Submit</button>';
+      reviewHtml += '</div>';
+
+      // Update page title
+      const requestType = getRequestType();
+      let reviewTitle = 'Review Your Request';
+      switch(requestType) {
+        case 'NEW_POSITION':
+          reviewTitle = 'Review New Position Request';
+          break;
+        case 'PROMOTION':
+          reviewTitle = 'Review Faculty Promotion Request';
+          break;
+        case 'SABBATICAL':
+          reviewTitle = 'Review Sabbatical Request';
+          break;
+        case 'APPOINTMENT':
+          reviewTitle = 'Review Appointment Request';
+          break;
+      }
+      document.getElementById('review-title').textContent = reviewTitle;
+
+      // Hide form, show review
+      const formContainer = document.querySelector('.form-container');
+      if (!formContainer) {
+        console.error('❌ Form container not found');
+        UIKit.toast.error('Error: Form container not found');
+        return;
+      }
+      
+      const formCard = formContainer.querySelector('.card');
+      const reviewSection = document.getElementById('review-section');
+      const reviewCard = document.getElementById('review-card');
+      
+      if (!formCard || !reviewSection || !reviewCard) {
+        console.error('❌ Required elements not found:', {
+          formCard: !!formCard,
+          reviewSection: !!reviewSection,
+          reviewCard: !!reviewCard
+        });
+        UIKit.toast.error('Error: Required page elements not found');
+        return;
+      }
+      
+      console.log('📋 Setting up review page...');
+      reviewCard.innerHTML = reviewHtml;
+      
+      // Hide the form card
+      formCard.style.display = 'none';
+      console.log('✅ Form card hidden');
+      
+      // Show the review section - remove hidden class and force display
+      reviewSection.classList.remove('hidden');
+      reviewSection.style.setProperty('display', 'block', 'important');
+      console.log('✅ Review section shown');
+      
+      // Double-check it's visible
+      const isVisible = reviewSection.offsetParent !== null;
+      console.log('Review section visible?', isVisible);
+      if (!isVisible) {
+        // Force it to be visible by also setting visibility
+        reviewSection.style.setProperty('visibility', 'visible', 'important');
+        reviewSection.style.setProperty('opacity', '1', 'important');
+      }
+      
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Attach handlers
+      document.getElementById('edit-btn').addEventListener('click', () => {
+        // Show form, hide review
+        const formCard = document.querySelector('.form-container .card');
+        if (formCard) {
+          formCard.style.display = 'block';
+        }
+        reviewSection.classList.add('hidden');
+        reviewSection.style.display = 'none';
+        
+        // Update main page description back
+        const pageDescription = document.getElementById('page-description');
+        if (pageDescription) {
+          const requestType = getRequestType();
+          let description = 'Fill in the details below to submit a new HR request';
+          switch(requestType) {
+            case 'NEW_POSITION':
+              description = 'Request a new position for your department';
+              break;
+            case 'PROMOTION':
+              description = 'Submit a promotion request for faculty member';
+              break;
+            case 'SABBATICAL':
+              description = 'Request sabbatical leave for research or other activities';
+              break;
+            case 'APPOINTMENT':
+              description = 'Request a new appointment (e.g., Department Chair)';
+              break;
+          }
+          pageDescription.textContent = description;
+        }
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      document.getElementById('submit-btn').addEventListener('click', () => {
+        console.log('✅ Submit button clicked, submitting request...');
+        if (reviewData) {
+          performSubmit(reviewData);
+        }
+      });
+    }
+
+    // Helper function to escape HTML
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Finalize submission
+    function performSubmit(requestData) {
+      try {
+        console.log('📝 Creating request:', requestData);
+        
+        if (typeof SessionStore === 'undefined') {
+          console.error('❌ SessionStore not available');
+          UIKit.toast.error('Data system not ready. Please refresh and try again.');
+          return;
+        }
+        
+        const editingId = getEditingId();
+        let finalId = editingId;
+        if (editingId) {
+          // Update existing draft then submit
+          const updated = SessionStore.updateRequest(editingId, requestData);
+          console.log('✅ Request updated:', updated);
+          SessionStore.submitRequest(editingId);
+          console.log('✅ Request submitted with ID:', editingId);
+        } else {
+          const newRequest = SessionStore.createRequest(requestData);
+          console.log('✅ Request created:', newRequest);
+          if (!newRequest || !newRequest.id) {
+            console.error('❌ Request creation failed');
+            UIKit.toast.error('Failed to create request');
+            return;
+          }
+          SessionStore.submitRequest(newRequest.id);
+          console.log('✅ Request submitted with ID:', newRequest.id);
+          finalId = newRequest.id;
+        }
+        
+        // Close any modals and clear review data
+        if (typeof UIKit !== 'undefined' && UIKit.modal) {
+          UIKit.modal.closeAll();
+        }
+        UIKit.toast.success('Request submitted successfully!');
+        reviewData = null;
+        
+        if (isEmbedded()) {
+          // Inform parent to close modal and refresh
+          console.log('📤 Sending message to parent window...');
+          try { 
+            window.top.postMessage({ hrmvp: 'request_submitted', requestId: finalId }, window.location.origin); 
+            console.log('✅ Message sent to parent');
+          } catch (e) {
+            console.error('❌ Error sending message to parent:', e);
+          }
+        } else {
+          setTimeout(() => {
+            window.location.href = 'dashboard.html?submitted=true';
+          }, 800);
+        }
+      } catch (error) {
+        console.error('❌ Error submitting request:', error);
+        UIKit.toast.error('Failed to submit request: ' + error.message);
+      }
+    }
+
+    // Save as draft
+    function saveDraft() {
+      try {
+        const requestType = getRequestType();
+        
+        const requestData = {
+          title: document.getElementById('title').value,
+          type: requestType,
+          description: document.getElementById('description').value,
+          department: document.getElementById('department').value,
+        };
+
+        // Add type-specific fields
+        if (requestType === 'NEW_POSITION') {
+          requestData.salary = document.getElementById('salary').value;
+          requestData.startDate = document.getElementById('startDate').value;
+        } else if (requestType === 'PROMOTION') {
+          requestData.employeeName = document.getElementById('employeeName').value;
+          requestData.currentPosition = document.getElementById('currentPosition').value;
+          requestData.promotedTo = document.getElementById('promotedTo').value;
+        } else if (requestType === 'SABBATICAL') {
+          requestData.duration = document.getElementById('duration').value;
+          requestData.startDate = document.getElementById('sabbaticalStartDate').value;
+          requestData.sabbaticalPurpose = document.getElementById('sabbaticalPurpose').value;
+        } else if (requestType === 'APPOINTMENT') {
+          requestData.appointeeName = document.getElementById('appointeeName').value;
+          requestData.appointmentPosition = document.getElementById('appointmentPosition').value;
+          requestData.startDate = document.getElementById('appointmentEffectiveDate').value;
+        }
+
+        const editingId = getEditingId();
+        let draftId = editingId;
+        if (editingId) {
+          SessionStore.updateRequest(editingId, requestData);
+        } else {
+          const newRequest = SessionStore.createRequest(requestData);
+          draftId = newRequest.id;
+        }
+        UIKit.toast.success('Draft saved');
+        console.log('✅ Draft saved:', draftId);
+        if (isEmbedded()) {
+          try { window.top.postMessage({ hrmvp: 'draft_saved', requestId: draftId }, window.location.origin); } catch (e) {}
+        } else {
+          setTimeout(() => {
+            window.location.href = `request-detail.html?id=${draftId}`;
+          }, 1000);
+        }
+      } catch (error) {
+        console.error('Error saving draft:', error);
+        UIKit.toast.error('Failed to save draft');
+      }
+    }
+
+    // Go back
+    function goBack() {
+      if (isEmbedded()) {
+        // Close modal by sending message to parent
+        try { window.top.postMessage({ hrmvp: 'close_modal' }, window.location.origin); } catch (e) {}
+      } else {
+        window.location.href = 'dashboard.html';
+      }
+    }
+
+    // Make functions globally available immediately
+    window.handleContinueToReview = handleContinueToReview;
+    window.goBack = goBack;
+    window.saveDraft = saveDraft;
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 DOM loaded, initializing...');
+      try {
+        initializeForm();
+        setupFormHandler();
+        console.log('✅ Initialization complete');
+      } catch (error) {
+        console.error('❌ Initialization error:', error);
+        UIKit.toast.error('Failed to initialize form');
+      }
+    });
+    
+    // Make functions available globally for debugging
+    window.debugShowReview = function() {
+      console.log('🔧 Debug: Manually calling showReviewPage()');
+      if (typeof showReviewPage === 'function') {
+        showReviewPage();
+      } else {
+        console.error('showReviewPage function not available');
+      }
+    };
+  </script>
+</body>
+</html>

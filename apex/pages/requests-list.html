@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Requests - College HR System</title>
+  <link rel="stylesheet" href="../static/css/design-system.css">
+  <style>
+    body {
+      padding: var(--spacing-xl);
+    }
+
+    .page-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .page-header h1 {
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .filters-bar {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: var(--spacing-sm);
+      align-items: center;
+    }
+
+    .filter-group label {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin: 0;
+    }
+
+    .filter-group select,
+    .filter-group input {
+      padding: 0.5rem var(--spacing-sm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+    }
+
+    .request-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--spacing-lg);
+      padding: var(--spacing-lg);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--spacing-md);
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .request-item:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      background-color: var(--color-bg-tertiary);
+    }
+
+    .request-info h3 {
+      margin: 0 0 var(--spacing-xs) 0;
+      font-size: var(--font-size-lg);
+    }
+
+    .request-meta {
+      display: flex;
+      gap: var(--spacing-lg);
+      margin-top: var(--spacing-sm);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .request-meta-item {
+      display: flex;
+      gap: var(--spacing-xs);
+    }
+
+    .request-description {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-top: var(--spacing-sm);
+    }
+
+    .request-actions {
+      display: flex;
+      gap: var(--spacing-sm);
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .request-actions button {
+      white-space: nowrap;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: var(--spacing-4xl) var(--spacing-lg);
+      color: var(--color-text-secondary);
+    }
+
+    .empty-state h3 {
+      margin-bottom: var(--spacing-md);
+      color: var(--color-text-secondary);
+    }
+
+    .results-count {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-tertiary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* Match badge colors with Dashboard Recent Activity */
+    .badge-primary {
+      background-color: #F5F5F5 !important;
+      color: #666666 !important;
+      border: 1px solid #E5E5E5;
+    }
+    .badge-success {
+      background-color: #F0F7F0 !important;
+      color: #4A6741 !important;
+      border: 1px solid #E0EAE0;
+    }
+    .badge-warning {
+      background-color: #FFF8F0 !important;
+      color: #8B6914 !important;
+      border: 1px solid #F0E8D0;
+    }
+    .badge-danger {
+      background-color: #FCF0F0 !important;
+      color: #A51C30 !important;
+      border: 1px solid #F5E0E0;
+    }
+    .badge-info {
+      background-color: #F5F5F5 !important;
+      color: #666666 !important;
+      border: 1px solid #E5E5E5;
+    }
+
+    @media (max-width: 768px) {
+      .filters-bar {
+        flex-direction: column;
+      }
+
+      .request-item {
+        grid-template-columns: 1fr;
+      }
+
+      .request-actions {
+        align-items: flex-start;
+        flex-direction: row;
+      }
+
+      .filter-group {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .filter-group select,
+      .filter-group input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" style="margin-bottom: var(--spacing-2xl); padding: var(--spacing-md) 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0;">College HR System</h3>
+      <div style="display: flex; gap: var(--spacing-lg);">
+        <a href="dashboard.html" style="color: var(--color-text-secondary); text-decoration: none;">Dashboard</a>
+        <a href="requests-list.html" style="color: var(--color-accent-primary); text-decoration: none; font-weight: 600;">My Requests</a>
+        <a href="approvals.html" style="color: var(--color-text-secondary); text-decoration: none;">Approvals</a>
+        <a href="#" style="color: var(--color-text-secondary); text-decoration: none;">Reports</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>My Requests</h1>
+    <p>View and manage all your HR requests</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <div class="filter-group">
+      <label>Status</label>
+      <select id="filter-status" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="DRAFT">Draft</option>
+        <option value="PENDING_REVIEW">Pending Review</option>
+        <option value="APPROVED">Approved</option>
+        <option value="REJECTED">Rejected</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Type</label>
+      <select id="filter-type" onchange="applyFilters()">
+        <option value="">All Types</option>
+        <option value="NEW_POSITION">New Position</option>
+        <option value="PROMOTION">Promotion</option>
+        <option value="SABBATICAL">Sabbatical</option>
+        <option value="APPOINTMENT">Appointment</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Search</label>
+      <input type="text" id="search-input" placeholder="Search requests..." onkeyup="applyFilters()" style="width: 200px;">
+    </div>
+
+    <button class="btn btn-secondary" style="margin-top: var(--spacing-md);" onclick="clearFilters()">Reset</button>
+  </div>
+
+  <!-- Results Count -->
+  <div class="results-count">
+    Showing <span id="results-count">0</span> requests
+  </div>
+
+  <!-- Requests List -->
+  <div id="requests-container"></div>
+
+  <!-- Scripts -->
+  <script src="../static/js/ui.js"></script>
+  <script src="../static/js/session-store.js"></script>
+  <script>
+    // If embedded, hide the local nav and adjust padding
+    (function() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const embedded = params.get('embed') === 'true';
+        if (embedded) {
+          const nav = document.querySelector('nav.navbar');
+          if (nav) nav.remove();
+          document.body.style.padding = 'var(--spacing-lg)';
+        }
+      } catch (_) {}
+    })();
+
+    // Load and display requests
+    function loadRequests() {
+      try {
+        console.log('📋 Loading requests list...');
+        
+        if (typeof SessionStore === 'undefined') {
+          UIKit.toast.error('Data system not ready. Refreshing...');
+          setTimeout(() => window.location.reload(), 2000);
+          return;
+        }
+
+        applyFilters();
+      } catch (error) {
+        console.error('Error loading requests:', error);
+        UIKit.toast.error('Failed to load requests');
+      }
+    }
+
+    // Apply filters and display results
+    function applyFilters() {
+      try {
+        const statusFilter = document.getElementById('filter-status').value;
+        const typeFilter = document.getElementById('filter-type').value;
+        const searchQuery = document.getElementById('search-input').value;
+
+        const filters = {};
+        if (statusFilter) filters.status = statusFilter;
+        if (typeFilter) filters.type = typeFilter;
+        if (searchQuery) filters.search = searchQuery;
+
+        const requests = SessionStore.getRequests(filters);
+        console.log('📊 Filtered results:', requests.length, 'requests');
+
+        renderRequests(requests);
+      } catch (error) {
+        console.error('Error applying filters:', error);
+        UIKit.toast.error('Failed to apply filters');
+      }
+    }
+
+    // Render requests to DOM
+    function renderRequests(requests) {
+      const container = document.getElementById('requests-container');
+      const resultsCount = document.getElementById('results-count');
+      
+      resultsCount.textContent = requests.length;
+
+      if (requests.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h3>No requests found</h3>
+            <p>Try adjusting your filters or create a new request</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = requests.map(req => `
+        <div class="request-item" onclick="viewRequest('${req.id}')">
+          <div class="request-info">
+            <h3>${req.title}</h3>
+            <div class="request-meta">
+              <div class="request-meta-item">
+                <strong>Type:</strong> ${req.type.replace(/_/g, ' ')}
+              </div>
+              <div class="request-meta-item">
+                <strong>Dept:</strong> ${req.department}
+              </div>
+              <div class="request-meta-item">
+                <strong>Created:</strong> ${formatDate(req.createdAt)}
+              </div>
+            </div>
+            <div class="request-description">
+              ${req.description}
+            </div>
+          </div>
+          <div class="request-actions">
+            <span class="badge badge-${getStatusColor(req.status)}" style="white-space: nowrap;">
+              ${req.status.replace(/_/g, ' ')}
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Open request detail in modal popout (same as recent activity on dashboard)
+    function viewRequest(id) {
+      const req = (typeof SessionStore !== 'undefined') ? SessionStore.getRequest(id) : null;
+      const title = req ? `${formatRequestType(req.type)} — ${req.title}` : 'Request Details';
+      const iframeSrc = `request-detail.html?id=${encodeURIComponent(id)}&embed=true`;
+      const content = `
+        <div style="width: 100%; height: 100%;">
+          <iframe src="${iframeSrc}" title="${title}" scrolling="yes" style="width: 100%; height: 100%; min-height: 600px; border: 0; background: var(--color-bg-primary); display: block;"></iframe>
+        </div>
+      `;
+
+      UIKit.modal.create(title, content, {
+        className: 'modal-xl modal-embedded',
+        backdropClass: 'modal-backdrop-strong'
+      });
+    }
+    
+    // Helper: Format request type for display
+    function formatRequestType(type) {
+      const typeMap = {
+        'NEW_POSITION': 'New Position',
+        'PROMOTION': 'Promotion',
+        'SABBATICAL': 'Sabbatical',
+        'APPOINTMENT': 'Appointment',
+        'LEAVE': 'Leave',
+        'TERMINATION': 'Termination',
+        'OTHER': 'Other'
+      };
+      return typeMap[type] || type || 'Request';
+    }
+
+    // Clear all filters
+    function clearFilters() {
+      document.getElementById('filter-status').value = '';
+      document.getElementById('filter-type').value = '';
+      document.getElementById('search-input').value = '';
+      applyFilters();
+    }
+
+    // Format date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric'
+      });
+    }
+
+    // Get status color
+    function getStatusColor(status) {
+      if (status === 'PENDING_REVIEW') return 'warning';
+      if (status === 'APPROVED') return 'success';
+      if (status === 'REJECTED') return 'danger';
+      if (status === 'DRAFT') return 'info';
+      return 'primary';
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', loadRequests);
+  </script>
+</body>
+</html>

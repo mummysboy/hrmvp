@@ -1,0 +1,53 @@
+/**
+ * Forest Green Theme
+ * Nature-inspired aesthetic with deep greens and natural elements
+ * Use: Add class="theme-forest-green" to <html> element
+ */
+
+:root.theme-forest-green {
+  /* PRIMARY ACCENT - Forest Tones */
+  --color-accent-primary: #047857;        /* Deep forest green */
+  --color-accent-secondary: #10B981;      /* Emerald */
+  --color-accent-tertiary: #6EE7B7;       /* Light green */
+  
+  /* STATUS COLORS - Natural */
+  --color-success: #059669;               /* Green */
+  --color-warning: #D97706;               /* Warm amber */
+  --color-danger: #DC2626;                /* Red */
+  --color-info: #0891B2;                  /* Cyan */
+  
+  /* BACKGROUNDS - Soft Greens */
+  --color-bg-primary: #F0FDF4;            /* Very light green */
+  --color-bg-secondary: #DCFCE7;          /* Light green */
+  --color-bg-tertiary: #BBF7D0;           /* Medium green */
+  
+  /* TEXT - Deep Green */
+  --color-text-primary: #064E3B;          /* Deep forest */
+  --color-text-secondary: #047857;        /* Forest green */
+  --color-text-tertiary: #059669;         /* Medium green */
+  
+  /* BORDERS - Forest */
+  --color-border: #10B981;                /* Emerald */
+  --color-border-light: #6EE7B7;          /* Light green */
+  --color-border-dark: #047857;           /* Deep green */
+}
+
+/* Optional: Dark mode variant for this theme */
+@media (prefers-color-scheme: dark) {
+  :root.theme-forest-green {
+    --color-bg-primary: #0B3D2C;          /* Very dark green */
+    --color-bg-secondary: #155E4D;        /* Deep forest */
+    --color-bg-tertiary: #1B7456;         /* Medium forest */
+    
+    --color-text-primary: #DCFCE7;        /* Light green */
+    --color-text-secondary: #6EE7B7;      /* Bright green */
+    --color-text-tertiary: #A7F3D0;       /* Soft green */
+    
+    --color-border: #10B981;              /* Emerald */
+    --color-border-light: #047857;        /* Dark green */
+    --color-border-dark: #6EE7B7;         /* Light green */
+  }
+}
+
+
+

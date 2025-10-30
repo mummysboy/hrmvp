@@ -1,0 +1,53 @@
+/**
+ * Ocean Breeze Theme
+ * Calm, professional aesthetic inspired by ocean and sky
+ * Use: Add class="theme-ocean-breeze" to <html> element
+ */
+
+:root.theme-ocean-breeze {
+  /* PRIMARY ACCENT - Ocean Tones */
+  --color-accent-primary: #0369A1;        /* Ocean blue */
+  --color-accent-secondary: #06B6D4;      /* Cyan/turquoise */
+  --color-accent-tertiary: #7DD3FC;       /* Sky blue */
+  
+  /* STATUS COLORS - Marine */
+  --color-success: #059669;               /* Teal */
+  --color-warning: #F97316;               /* Coral (for contrast) */
+  --color-danger: #DC2626;                /* Red */
+  --color-info: #0284C7;                  /* Sky blue */
+  
+  /* BACKGROUNDS - Cool Blues */
+  --color-bg-primary: #F0F9FF;            /* Very light blue */
+  --color-bg-secondary: #E0F2FE;          /* Light sky blue */
+  --color-bg-tertiary: #BAE6FD;           /* Medium sky blue */
+  
+  /* TEXT - Deep Navy */
+  --color-text-primary: #0C4A6E;          /* Navy blue */
+  --color-text-secondary: #164E63;        /* Teal-navy */
+  --color-text-tertiary: #475569;         /* Slate */
+  
+  /* BORDERS - Ocean */
+  --color-border: #06B6D4;                /* Cyan */
+  --color-border-light: #7DD3FC;          /* Light cyan */
+  --color-border-dark: #0369A1;           /* Dark blue */
+}
+
+/* Optional: Dark mode variant for this theme */
+@media (prefers-color-scheme: dark) {
+  :root.theme-ocean-breeze {
+    --color-bg-primary: #0C1E30;          /* Very dark blue */
+    --color-bg-secondary: #163B56;        /* Dark navy */
+    --color-bg-tertiary: #1E5A8E;         /* Deeper ocean */
+    
+    --color-text-primary: #E0F2FE;        /* Light sky */
+    --color-text-secondary: #7DD3FC;      /* Light cyan */
+    --color-text-tertiary: #67E8F9;       /* Bright cyan */
+    
+    --color-border: #06B6D4;              /* Cyan */
+    --color-border-light: #164E63;        /* Teal */
+    --color-border-dark: #0369A1;         /* Ocean blue */
+  }
+}
+
+
+

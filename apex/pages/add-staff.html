@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Staff - College HR System</title>
+  <link rel="stylesheet" href="../static/css/design-system.css">
+  <link rel="stylesheet" href="../themes/theme-modern-minimal.css">
+  <link rel="stylesheet" href="../themes/theme-warm-earth.css">
+  <link rel="stylesheet" href="../themes/theme-ocean-breeze.css">
+  <link rel="stylesheet" href="../themes/theme-forest-green.css">
+  <link rel="stylesheet" href="../themes/theme-vibrant-tech.css">
+  <link rel="stylesheet" href="../themes/theme-professional-navy.css">
+  <link rel="stylesheet" href="../themes/theme-sunset-coral.css">
+  <style>
+    body { background: var(--color-bg-primary); padding: var(--spacing-xl); }
+    body.embedded { padding: var(--spacing-md); overflow-y: auto; overflow-x: hidden; min-height: 100vh; }
+    .form-container {
+      width: 100%;
+      padding-left: var(--spacing-xl);
+      padding-right: var(--spacing-xl);
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .page-header { margin-bottom: var(--spacing-2xl); }
+    .page-header h1 { font-size: var(--font-size-3xl); color: #2C2C2C; font-weight: var(--font-weight-semibold); }
+    .form-section {
+      width: 100%;
+      padding: var(--spacing-lg);
+      margin-bottom: var(--spacing-xl);
+      background: #fff;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 1px 8px rgba(0,0,0,0.03);
+      box-sizing: border-box;
+    }
+    .form-section-title { font-size: var(--font-size-lg); font-weight: 600; color: #A51C30; margin-bottom: var(--spacing-md); border-bottom: 1px solid #F0F0F0; padding-bottom: 4px; }
+    .form-group { margin-bottom: var(--spacing-md); }
+    .form-label { display: block; margin-bottom: 0.25rem; font-weight: 600; }
+    .form-actions { display: flex; gap: var(--spacing-md); justify-content: flex-end; margin-top: var(--spacing-lg); }
+    .btn-primary { background: #A51C30 !important; color: #fff !important; border: none !important; }
+    .btn-primary:hover { background: #8B1627 !important; }
+    .btn-secondary { background: #fff !important; color: #2C2C2C !important; border: 1px solid #E5E5E5 !important; }
+    .btn-secondary:hover { background: #F8F8F8 !important; }
+    .form-columns { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg); }
+    @media (max-width: 800px) { .form-columns { grid-template-columns: 1fr; } .form-section { padding: var(--spacing-md); } }
+    .avatar-preview { margin-bottom: .5rem; max-width: 64px; max-height: 64px; border-radius: 50%; }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="page-header">
+      <h1>Add Staff Member</h1>
+      <p>Add a new staff member. They will appear in the directory after saving.</p>
+    </div>
+    <form id="addStaffForm">
+      <div class="form-section">
+        <div class="form-section-title">Personal Info</div>
+        <div class="form-columns">
+          <div>
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" id="staffName" class="form-control" placeholder="e.g. Jane Doe" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="staffEmail" class="form-control" placeholder="e.g. janedoe@example.edu" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input type="email" id="staffPhone" class="form-control" placeholder="e.g. (555) 555-5555">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Location</label>
+              <input type="text" id="staffLocation" class="form-control" placeholder="e.g. Building, Room">
+            </div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label class="form-label">Photo</label>
+              <input type="file" id="staffPhoto" accept="image/*" style="display:none;">
+              <label for="staffPhoto" id="uploadPhotoBtn" class="btn btn-secondary" style="margin-bottom:10px;">Upload Photo</label>
+              <div id="photoPreviewWrapper" style="margin-bottom: .5rem; display:none; flex-direction: column; align-items: flex-start; gap: 0.5rem;">
+                <img id="photoPreview" class="avatar-preview" style="display:block;" />
+                <button type="button" id="removePhotoBtn" class="btn btn-ghost btn-sm">Remove Photo</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select id="staffStatus" class="form-control">
+                <option>Active</option>
+                <option>On Leave</option>
+                <option>Terminated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Job Details</div>
+        <div class="form-columns">
+          <div>
+            <div class="form-group">
+              <label class="form-label">Job Title</label>
+              <input type="text" id="staffTitle" class="form-control" placeholder="e.g. Research Coordinator" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Department</label>
+              <input type="text" id="staffDept" class="form-control" placeholder="e.g. Biology" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Employment Type</label>
+              <select id="staffType" class="form-control" required>
+                <option value="">Choose type</option>
+                <option>Faculty</option>
+                <option>Staff</option>
+                <option>Student</option>
+                <option>Postdoc</option>
+                <option>Temp</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div class="form-group">
+              <label class="form-label">Start Date</label>
+              <input type="date" id="staffStartDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">End Date</label>
+              <input type="date" id="staffEndDate" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Supervisor</label>
+              <input type="text" id="staffSupervisor" class="form-control" placeholder="Supervisor name or email">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save New Staff</button>
+      </div>
+    </form>
+    <div id="success-message" style="display:none; margin-top:2rem; color: #2C2C2C;"></div>
+  </div>
+  <script src="../static/js/ui.js"></script>
+  <script src="../static/js/session-store.js"></script>
+  <script>
+    function isEmbedded() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('embed') === 'true' || window.top !== window.self;
+    }
+    const photoInput = document.getElementById('staffPhoto');
+    const photoPreview = document.getElementById('photoPreview');
+    const photoPreviewWrapper = document.getElementById('photoPreviewWrapper');
+    const removePhotoBtn = document.getElementById('removePhotoBtn');
+    const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
+    if (photoInput) {
+      photoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(evt) {
+            photoPreview.src = evt.target.result;
+            photoPreviewWrapper.style.display = 'flex';
+          };
+          reader.readAsDataURL(file);
+        } else {
+          photoPreview.src = '';
+          photoPreviewWrapper.style.display = 'none';
+        }
+      });
+      if (removePhotoBtn) {
+        removePhotoBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          photoInput.value = '';
+          photoPreview.src = '';
+          photoPreviewWrapper.style.display = 'none';
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      if (isEmbedded()) document.body.classList.add('embedded');
+      document.getElementById('addStaffForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = document.getElementById('staffName').value.trim();
+        const email = document.getElementById('staffEmail').value.trim();
+        const title = document.getElementById('staffTitle').value.trim();
+        const dept = document.getElementById('staffDept').value.trim();
+        const type = document.getElementById('staffType').value;
+        const startDate = document.getElementById('staffStartDate').value;
+        const phone = document.getElementById('staffPhone').value.trim();
+        const location = document.getElementById('staffLocation').value.trim();
+        const status = document.getElementById('staffStatus').value;
+        const tags = document.getElementById('staffTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+        const supervisor = document.getElementById('staffSupervisor').value.trim();
+        const endDate = document.getElementById('staffEndDate').value;
+        let photoUrl = '';
+        const photo = document.getElementById('staffPhoto').files[0];
+        if(photo && window.FileReader){ // Simple base64 preview (not for production)
+          photoUrl = photoPreview.src || '';
+        }
+        if(!name||!email||!title||!dept||!type||!startDate) {
+          UIKit.toast.error('Please fill in all required fields.');
+          return;
+        }
+        if(typeof SessionStore==='undefined'||!SessionStore.addPerson) {
+          UIKit.toast.error('Data system not ready.');
+          return;
+        }
+        const newPerson = {
+          name, email, title, dept, employmentType: type, startDate, phone, location, tags, status, supervisor, endDate,
+          id: email || name+Date.now(), photoUrl: photoUrl || '',
+        };
+        try {
+          SessionStore.addPerson(newPerson);
+          document.getElementById('success-message').textContent = 'Staff member added! You can now view them in the directory.';
+          document.getElementById('success-message').style.display = 'block';
+          document.getElementById('addStaffForm').reset();
+          photoPreview.src = '';
+          photoPreview.style.display = 'none';
+          UIKit.toast.success('Staff added');
+          if (isEmbedded() && window.top) {
+            setTimeout(() => { window.top.postMessage({hrmvp:'staff_added', person:newPerson}, window.location.origin); }, 900);
+          }
+        } catch (err) {
+          UIKit.toast.error('Failed to save staff');
+        }
+      });
+      document.getElementById('cancelBtn').addEventListener('click', function(e){
+        e.preventDefault();
+        if (isEmbedded() && window.top) { window.top.postMessage({hrmvp:'close_modal'}, window.location.origin); }
+        else { window.location.href = 'dashboard.html'; }
+      });
+      // No phone masking, keep phone input like all other inputs.
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+/**
+ * Warm Earth Theme
+ * Friendly, approachable aesthetic with natural earth tones
+ * Use: Add class="theme-warm-earth" to <html> element
+ */
+
+:root.theme-warm-earth {
+  /* PRIMARY ACCENT - Warm Tones */
+  --color-accent-primary: #D97706;        /* Warm amber/orange */
+  --color-accent-secondary: #F59E0B;      /* Light amber */
+  --color-accent-tertiary: #FBBF24;       /* Gold */
+  
+  /* STATUS COLORS - Natural */
+  --color-success: #84CC16;               /* Lime green (natural) */
+  --color-warning: #EAB308;               /* Yellow-gold */
+  --color-danger: #DC2626;                /* Warm red */
+  --color-info: #0891B2;                  /* Warm cyan */
+  
+  /* BACKGROUNDS - Warm Neutrals */
+  --color-bg-primary: #FFFBF0;            /* Warm cream */
+  --color-bg-secondary: #FEF3C7;          /* Light amber tint */
+  --color-bg-tertiary: #FCD34D;           /* Soft amber */
+  
+  /* TEXT - Warm Browns */
+  --color-text-primary: #78350F;          /* Deep brown */
+  --color-text-secondary: #92400E;        /* Medium brown */
+  --color-text-tertiary: #B45309;         /* Light brown */
+  
+  /* BORDERS - Warm Earth */
+  --color-border: #D97706;                /* Amber */
+  --color-border-light: #FCD34D;          /* Light amber */
+  --color-border-dark: #B45309;           /* Dark amber */
+}
+
+/* Optional: Dark mode variant for this theme */
+@media (prefers-color-scheme: dark) {
+  :root.theme-warm-earth {
+    --color-bg-primary: #3E2723;          /* Deep brown */
+    --color-bg-secondary: #5D4037;        /* Medium brown */
+    --color-bg-tertiary: #6D4C41;         /* Lighter brown */
+    
+    --color-text-primary: #FFECB3;        /* Warm light */
+    --color-text-secondary: #FFE0B2;      /* Peachy */
+    --color-text-tertiary: #BCAAA4;       /* Muted warm */
+    
+    --color-border: #D97706;              /* Warm amber */
+    --color-border-light: #A1887F;        /* Muted brown */
+    --color-border-dark: #F59E0B;         /* Bright amber */
+  }
+}
+
+
+

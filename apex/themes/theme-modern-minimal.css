@@ -1,0 +1,53 @@
+/**
+ * Modern Minimal Theme
+ * Clean, corporate aesthetic with neutral grays and minimalist design
+ * Use: Add class="theme-modern-minimal" to <html> element
+ */
+
+:root.theme-modern-minimal {
+  /* PRIMARY ACCENT - Subtle Slate */
+  --color-accent-primary: #6366F1;        /* Indigo */
+  --color-accent-secondary: #818CF8;      /* Light indigo */
+  --color-accent-tertiary: #E0E7FF;       /* Very light indigo */
+  
+  /* STATUS COLORS - Refined */
+  --color-success: #10B981;               /* Emerald */
+  --color-warning: #F59E0B;               /* Amber */
+  --color-danger: #EF4444;                /* Red */
+  --color-info: #06B6D4;                  /* Cyan */
+  
+  /* BACKGROUNDS - Cool Grays */
+  --color-bg-primary: #F9FAFB;            /* Cool white */
+  --color-bg-secondary: #F3F4F6;          /* Light gray */
+  --color-bg-tertiary: #E5E7EB;           /* Medium gray */
+  
+  /* TEXT - High Contrast */
+  --color-text-primary: #111827;          /* Almost black */
+  --color-text-secondary: #4B5563;        /* Warm gray */
+  --color-text-tertiary: #9CA3AF;         /* Light gray */
+  
+  /* BORDERS - Subtle */
+  --color-border: #D1D5DB;                /* Gray-300 */
+  --color-border-light: #E5E7EB;          /* Gray-200 */
+  --color-border-dark: #9CA3AF;           /* Gray-400 */
+}
+
+/* Optional: Dark mode variant for this theme */
+@media (prefers-color-scheme: dark) {
+  :root.theme-modern-minimal {
+    --color-bg-primary: #0F172A;          /* Slate-900 */
+    --color-bg-secondary: #1E293B;        /* Slate-800 */
+    --color-bg-tertiary: #334155;         /* Slate-700 */
+    
+    --color-text-primary: #F8FAFC;        /* Slate-50 */
+    --color-text-secondary: #CBD5E1;      /* Slate-300 */
+    --color-text-tertiary: #94A3B8;       /* Slate-400 */
+    
+    --color-border: #475569;              /* Slate-600 */
+    --color-border-light: #334155;        /* Slate-700 */
+    --color-border-dark: #64748B;         /* Slate-500 */
+  }
+}
+
+
+

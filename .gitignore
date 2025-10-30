@@ -1,0 +1,65 @@
+# System Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Build & Deployment
+dist/
+build/
+*.zip
+*.tar.gz
+
+# Database
+*.sql.bak
+*.backup
+*.dmp
+*.exp
+*.ora
+
+# Configuration & Credentials
+.env
+.env.local
+.env.*.local
+config/credentials.json
+database/credentials.sql
+scripts/deploy-config.local.sql
+
+# APEX
+apex-app-export.sql
+apex-app-*.sql
+*.apexp
+
+# Liquibase
+liquibase.properties
+changeLog*.xml.bak
+
+# Test Data & Logs
+test-results/
+coverage/
+*.log
+logs/
+
+# IDE Generated
+.project
+.classpath
+.settings/
+
+# Cursor IDE
+.cursor/
+
+# Temporary Files
+*.tmp
+*.temp
+.DS_Store

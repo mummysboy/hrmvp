@@ -1,0 +1,49 @@
+/**
+ * Vibrant Tech Theme
+ * Bold, energetic aesthetic with high contrast and modern vibrancy
+ * Use: Add class="theme-vibrant-tech" to <html> element
+ */
+
+:root.theme-vibrant-tech {
+  /* PRIMARY ACCENT - Neon Vibrancy */
+  --color-accent-primary: #D946EF;        /* Neon magenta */
+  --color-accent-secondary: #06B6D4;      /* Neon cyan */
+  --color-accent-tertiary: #22C55E;       /* Neon green */
+  
+  /* STATUS COLORS - Bold */
+  --color-success: #22C55E;               /* Bright green */
+  --color-warning: #FBBF24;               /* Bright amber */
+  --color-danger: #FF0000;                /* Bright red */
+  --color-info: #06B6D4;                  /* Bright cyan */
+  
+  /* BACKGROUNDS - Dark with Contrast */
+  --color-bg-primary: #0A0E27;            /* Very dark blue */
+  --color-bg-secondary: #1A1F3A;          /* Dark purple-blue */
+  --color-bg-tertiary: #2D2E45;           /* Medium dark */
+  
+  /* TEXT - Bright & High Contrast */
+  --color-text-primary: #FFFFFF;          /* Pure white */
+  --color-text-secondary: #E0E0E0;        /* Light gray */
+  --color-text-tertiary: #A0A0A0;         /* Medium gray */
+  
+  /* BORDERS - Neon */
+  --color-border: #D946EF;                /* Neon magenta */
+  --color-border-light: #06B6D4;          /* Neon cyan */
+  --color-border-dark: #22C55E;           /* Neon green */
+}
+
+/* Optional: Light mode variant (inverted) for this theme */
+@media (prefers-color-scheme: light) {
+  :root.theme-vibrant-tech {
+    --color-bg-primary: #F5F3FF;          /* Very light lavender */
+    --color-bg-secondary: #E9D5FF;        /* Light lavender */
+    --color-bg-tertiary: #DDD6FE;         /* Softer lavender */
+    
+    --color-text-primary: #2D1B69;        /* Deep purple */
+    --color-text-secondary: #4C1D95;      /* Dark purple */
+    --color-text-tertiary: #6B21A8;       /* Medium purple */
+  }
+}
+
+
+

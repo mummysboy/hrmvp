@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Detail - College HR System</title>
+  <link rel="stylesheet" href="../static/css/design-system.css">
+  <style>
+    body {
+      padding: var(--spacing-xl);
+    }
+
+    /* Embedded (modal) mode: match dashboard popout styling */
+    body.embedded {
+      padding: var(--spacing-lg);
+      background: var(--color-bg-primary);
+    }
+    body.embedded .navbar,
+    body.embedded .breadcrumb {
+      display: none;
+    }
+
+    /* In embedded view, hide the header-card status badge (status still shown in sidebar) */
+    body.embedded #request-badge {
+      display: none;
+    }
+
+    /* Hide approval workflow entirely in embedded view */
+    body.embedded .approval-workflow-card {
+      display: none;
+    }
+
+    .breadcrumb {
+      margin-bottom: var(--spacing-2xl);
+      font-size: var(--font-size-sm);
+    }
+
+    .breadcrumb a {
+      color: var(--color-accent-primary);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .detail-grid {
+      grid-template-columns: 2fr 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .approval-timeline {
+      position: relative;
+      padding-left: var(--spacing-lg);
+    }
+
+    .approval-step {
+      position: relative;
+      padding-bottom: var(--spacing-lg);
+      padding-left: var(--spacing-lg);
+    }
+
+    .approval-step::before {
+      content: '';
+      position: absolute;
+      left: calc(var(--spacing-md) * -1);
+      top: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--color-border);
+    }
+
+    .approval-step.completed::before {
+      background-color: var(--color-success);
+    }
+
+    .approval-step.pending::before {
+      background-color: var(--color-warning);
+    }
+
+    .approval-step.rejected::before {
+      background-color: var(--color-danger);
+    }
+
+    .approval-step h5 {
+      margin: 0 0 var(--spacing-xs) 0;
+    }
+
+    .approval-step .approved-by {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .approval-comment {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      padding: var(--spacing-sm);
+      background-color: var(--color-bg-tertiary);
+      border-radius: var(--radius-md);
+      margin-top: var(--spacing-xs);
+    }
+
+    /* Make status badge in sidebar slightly larger for emphasis */
+    #request-status-display .badge {
+      font-size: var(--font-size-sm);
+      padding: 0.4rem 0.9rem;
+    }
+
+    .action-bar {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-lg);
+      padding-top: var(--spacing-lg);
+      border-top: 1px solid var(--color-border-light);
+    }
+
+    .field-label {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .field-value {
+      font-size: var(--font-size-base);
+      color: var(--color-text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    @media (max-width: 992px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" style="margin-bottom: var(--spacing-2xl); padding: var(--spacing-md) 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="margin: 0;">College HR System</h3>
+      <div style="display: flex; gap: var(--spacing-lg);">
+        <a href="dashboard.html" style="color: var(--color-text-secondary); text-decoration: none;">Dashboard</a>
+        <a href="requests-list.html" style="color: var(--color-accent-primary); text-decoration: none; font-weight: 600;">My Requests</a>
+        <a href="approvals.html" style="color: var(--color-text-secondary); text-decoration: none;">Approvals</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="dashboard.html">Dashboard</a> / 
+    <a href="requests-list.html">Requests</a> / 
+    <span id="breadcrumb-title">Request Detail</span>
+  </div>
+
+  <!-- Main Content -->
+  <div class="grid detail-grid">
+    <!-- Left Column: Request Details -->
+    <div>
+      <!-- Header Card -->
+      <div class="card" style="margin-bottom: var(--spacing-lg);">
+        <div class="card-header">
+          <div>
+            <h2 id="request-title" style="margin: 0;">Request Title</h2>
+            <p class="card-subtitle" id="request-type">Type</p>
+          </div>
+          <span class="badge" id="request-badge" style="white-space: nowrap;">Status</span>
+        </div>
+        <div class="card-body">
+          <p id="request-description">Description goes here</p>
+        </div>
+      </div>
+
+      <!-- Request Details -->
+      <div class="card" style="margin-bottom: var(--spacing-lg);">
+        <div class="card-header">
+          <h3 class="card-title">Request Details</h3>
+        </div>
+        <div class="card-body">
+          <div>
+            <div class="field-label">Department</div>
+            <div class="field-value" id="request-department">-</div>
+          </div>
+          <div>
+            <div class="field-label">Submitted By</div>
+            <div class="field-value" id="request-submitted-by">-</div>
+          </div>
+          <div>
+            <div class="field-label">Created Date</div>
+            <div class="field-value" id="request-created-date">-</div>
+          </div>
+          <div>
+            <div class="field-label">Additional Info</div>
+            <div class="field-value" id="request-additional-info">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approval Timeline -->
+      <div class="card approval-workflow-card">
+        <div class="card-header">
+          <h3 class="card-title">Approval Workflow</h3>
+        </div>
+        <div class="card-body">
+          <div class="approval-timeline" id="approval-timeline"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Sidebar -->
+    <div>
+      <!-- Status Card -->
+      <div class="card" style="margin-bottom: var(--spacing-lg);">
+        <div class="card-header">
+          <h3 class="card-title">Status</h3>
+        </div>
+        <div class="card-body">
+          <div style="text-align: center; padding: var(--spacing-lg) 0;">
+            <p id="request-status-display" style="font-size: var(--font-size-lg); margin: 0;">
+              <span class="badge badge-warning">Pending Review</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Panel -->
+      <div class="card" id="action-panel" style="margin-bottom: var(--spacing-lg);">
+        <div class="card-header">
+          <h3 class="card-title">Actions</h3>
+        </div>
+        <div class="card-body" id="action-panel-body">
+          <!-- Buttons injected by script based on status -->
+        </div>
+      </div>
+
+      <!-- Info Card -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Next Steps</h3>
+        </div>
+        <div class="card-body">
+          <p id="next-steps-text" style="font-size: var(--font-size-sm); margin: 0; color: var(--color-text-secondary);">
+            This request is awaiting approval from the department chair.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../static/js/ui.js"></script>
+  <script src="../static/js/session-store.js"></script>
+  <script>
+    // If embedded in a modal (embed=true), switch to embedded layout
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('embed') === 'true') {
+        document.addEventListener('DOMContentLoaded', function() {
+          document.body.classList.add('embedded', 'theme-dashboard');
+        });
+      }
+    })();
+
+    // Get request ID from URL
+    function getRequestId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    // Load request data
+    function loadRequest() {
+      try {
+        console.log('📄 Loading request detail...');
+        const id = getRequestId();
+        console.log('Request ID from URL:', id);
+        
+        if (!id) {
+          console.warn('No request ID provided');
+          UIKit.toast.warning('No request selected. Redirecting...');
+          setTimeout(() => window.location.href = 'dashboard.html', 1500);
+          return;
+        }
+
+        if (typeof SessionStore === 'undefined') {
+          console.error('SessionStore not available');
+          UIKit.toast.error('Data system not ready. Refreshing...');
+          setTimeout(() => window.location.reload(), 2000);
+          return;
+        }
+
+        const request = SessionStore.getRequest(id);
+        console.log('✅ Loaded request:', request);
+        
+        if (!request) {
+          console.error('Request not found with ID:', id);
+          UIKit.toast.error('Request not found');
+          setTimeout(() => window.location.href = 'dashboard.html', 1500);
+          return;
+        }
+
+        // Update page title
+        document.title = `${request.title} - College HR System`;
+
+        // Populate request details
+        document.getElementById('breadcrumb-title').textContent = request.title;
+        document.getElementById('request-title').textContent = request.title;
+        document.getElementById('request-type').textContent = request.type.replace(/_/g, ' ');
+        document.getElementById('request-description').textContent = request.description;
+        document.getElementById('request-department').textContent = request.department;
+        document.getElementById('request-submitted-by').textContent = request.createdBy;
+        document.getElementById('request-created-date').textContent = formatDate(request.createdAt);
+
+        // Additional info based on type
+        if (request.salary) {
+          document.getElementById('request-additional-info').innerHTML = `
+            <strong>Salary Range:</strong> ${request.salary}<br>
+            <strong>Start Date:</strong> ${request.startDate}
+          `;
+        } else if (request.duration) {
+          document.getElementById('request-additional-info').innerHTML = `
+            <strong>Duration:</strong> ${request.duration}<br>
+            <strong>Start Date:</strong> ${request.startDate}
+          `;
+        }
+
+        // Update status badge
+        const badgeEl = document.getElementById('request-badge');
+        const statusColor = getStatusColor(request.status);
+        badgeEl.className = `badge badge-${statusColor}`;
+        badgeEl.textContent = request.status.replace(/_/g, ' ');
+
+        // Update status display
+        const statusDisplay = document.getElementById('request-status-display');
+        statusDisplay.innerHTML = `<span class="badge badge-${statusColor}">${request.status.replace(/_/g, ' ')}</span>`;
+
+        // Configure actions based on status
+        const actionPanel = document.getElementById('action-panel');
+        const actionBody = document.getElementById('action-panel-body');
+        if (request.status === 'DRAFT') {
+          if (actionPanel) actionPanel.style.display = 'block';
+          if (actionBody) {
+            actionBody.innerHTML = `
+              <button class="btn btn-secondary btn-block" onclick="editRequest('${id}')">Draft</button>
+            `;
+          }
+        } else if (request.status === 'PENDING_REVIEW') {
+          if (actionPanel) actionPanel.style.display = 'block';
+          if (actionBody) {
+            actionBody.innerHTML = `
+              <button class="btn btn-success btn-block" style="margin-bottom: var(--spacing-md);" onclick="openApprovalModal()">✓ Approve</button>
+              <button class="btn btn-danger btn-block" onclick="openRejectionModal()">✕ Reject</button>
+            `;
+          }
+        } else {
+          if (actionPanel) actionPanel.style.display = 'none';
+        }
+
+        // Build approval timeline
+        const timelineHtml = buildApprovalTimeline(request);
+        document.getElementById('approval-timeline').innerHTML = timelineHtml;
+
+        // Update next steps
+        updateNextSteps(request);
+        
+        console.log('✅ Request detail page loaded successfully');
+      } catch (error) {
+        console.error('Error loading request:', error);
+        UIKit.toast.error('Failed to load request. Please try again.');
+        setTimeout(() => window.location.href = 'dashboard.html', 1500);
+      }
+    }
+    // Open the original form for editing
+    function editRequest(id) {
+      const req = (typeof SessionStore !== 'undefined') ? SessionStore.getRequest(id) : null;
+      const title = req ? `Edit ${req.title}` : 'Edit Request';
+      const iframeSrc = `request-form.html?id=${encodeURIComponent(id)}&embed=true`;
+      const content = `
+        <div style="width: 100%; height: 100%;">
+          <iframe src="${iframeSrc}" title="${title}" scrolling="yes" style="width: 100%; height: 100%; min-height: 600px; border: 0; background: var(--color-bg-primary); display: block;"></iframe>
+        </div>
+      `;
+      UIKit.modal.create(title, content, {
+        className: 'modal-xl modal-embedded',
+        backdropClass: 'modal-backdrop-strong'
+      });
+    }
+
+    // Build approval timeline HTML
+    function buildApprovalTimeline(request) {
+      let html = '';
+
+      if (request.approvalSteps && request.approvalSteps.length > 0) {
+        request.approvalSteps.forEach(step => {
+          const stepClass = step.action === 'APPROVED' ? 'completed' : 'rejected';
+          html += `
+            <div class="approval-step ${stepClass}">
+              <h5>${step.action === 'APPROVED' ? '✓ Approved' : '✕ Rejected'}</h5>
+              <div class="approved-by">${step.approvedBy}</div>
+              <div class="approved-by">${formatDate(step.approvedAt)}</div>
+              ${step.comment ? `<div class="approval-comment">"${step.comment}"</div>` : ''}
+            </div>
+          `;
+        });
+      }
+
+      // Add pending step if not fully approved
+      if (request.status === 'PENDING_REVIEW') {
+        html += `
+          <div class="approval-step pending">
+            <h5>⏳ Awaiting Review</h5>
+            <div class="approved-by">Pending approval from authorized personnel</div>
+          </div>
+        `;
+      }
+
+      return html || '<p class="text-muted">No approval steps yet</p>';
+    }
+
+    // Get status color
+    function getStatusColor(status) {
+      if (status === 'PENDING_REVIEW') return 'warning';
+      if (status === 'APPROVED') return 'success';
+      if (status === 'REJECTED') return 'danger';
+      if (status === 'DRAFT') return 'info';
+      return 'primary';
+    }
+
+    // Format date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Update next steps
+    function updateNextSteps(request) {
+      const nextStepsEl = document.getElementById('next-steps-text');
+      if (request.status === 'PENDING_REVIEW') {
+        nextStepsEl.textContent = 'This request is awaiting approval. Review the details and take action above.';
+      } else if (request.status === 'APPROVED') {
+        nextStepsEl.textContent = 'This request has been approved and is ready for processing.';
+      } else if (request.status === 'REJECTED') {
+        nextStepsEl.textContent = `This request was rejected: ${request.rejectionReason || 'No reason provided'}`;
+      } else if (request.status === 'DRAFT') {
+        nextStepsEl.textContent = 'This request is still in draft status. Submit it for approval to proceed.';
+      }
+    }
+
+    // Open approval modal
+    function openApprovalModal() {
+      const id = getRequestId();
+      UIKit.modal.create(
+        'Approve Request',
+        `
+          <div class="form-group">
+            <label>Comments (Optional)</label>
+            <textarea id="approval-comment" placeholder="Add any comments about this approval..."></textarea>
+          </div>
+        `,
+        {
+          footer: `
+            <button class="btn btn-secondary" onclick="UIKit.modal.closeAll()">Cancel</button>
+            <button class="btn btn-success" onclick="approveRequest('${id}')">Approve</button>
+          `
+        }
+      );
+    }
+
+    // Open rejection modal
+    function openRejectionModal() {
+      const id = getRequestId();
+      UIKit.modal.create(
+        'Reject Request',
+        `
+          <div class="form-group">
+            <label class="label-required">Reason for Rejection</label>
+            <textarea id="rejection-reason" placeholder="Explain why you're rejecting this request..." required></textarea>
+          </div>
+        `,
+        {
+          footer: `
+            <button class="btn btn-secondary" onclick="UIKit.modal.closeAll()">Cancel</button>
+            <button class="btn btn-danger" onclick="rejectRequest('${id}')">Reject</button>
+          `
+        }
+      );
+    }
+
+    // Approve request
+    function approveRequest(id) {
+      const comment = document.getElementById('approval-comment')?.value || '';
+      SessionStore.approveRequest(id, 'Current User', comment);
+      UIKit.modal.closeAll();
+      UIKit.toast.success('Request approved!');
+      setTimeout(() => loadRequest(), 500);
+    }
+
+    // Reject request
+    function rejectRequest(id) {
+      const reason = document.getElementById('rejection-reason')?.value;
+      if (!reason) {
+        UIKit.toast.warning('Please provide a reason for rejection');
+        return;
+      }
+      SessionStore.rejectRequest(id, 'Current User', reason);
+      UIKit.modal.closeAll();
+      UIKit.toast.error('Request rejected');
+      setTimeout(() => loadRequest(), 500);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', loadRequest);
+  </script>
+</body>
+</html>

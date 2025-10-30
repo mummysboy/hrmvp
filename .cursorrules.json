@@ -1,0 +1,129 @@
+{
+  "projectName": "College HR System - Oracle APEX + PeopleSoft",
+  "description": "Modern HR management platform for higher-education institutions with clean, minimal Hinge-inspired design",
+  "language": "plsql",
+  "primaryLanguages": ["sql", "plsql", "javascript", "css", "html"],
+  "style": "clean",
+  "theme": "oracle-apex-dev",
+  "enforceFormatting": true,
+  "editor": {
+    "formatOnSave": true,
+    "tabSize": 2,
+    "trimTrailingWhitespace": true,
+    "insertFinalNewline": true
+  },
+  "suggestions": {
+    "prefer": [
+      "APEX dynamic actions",
+      "RESTful integrations with ORDS",
+      "Universal Theme customizations",
+      "PL/SQL packages for business logic",
+      "CSS custom properties for consistency",
+      "Accessible form design patterns"
+    ],
+    "avoid": [
+      "Inline styles",
+      "Hard-coded colors (use CSS variables)",
+      "JavaScript without UIKit wrapper",
+      "Complex nested modals",
+      "Page-specific CSS (use design-system.css)"
+    ]
+  },
+  "codePatterns": {
+    "plsql": {
+      "indent": 2,
+      "lineLength": 100,
+      "alwaysDeclareVariables": true,
+      "preferPackages": true
+    },
+    "javascript": {
+      "indent": 2,
+      "quotes": "single",
+      "useUIKit": true,
+      "avoidGlobalVariables": true
+    },
+    "css": {
+      "indent": 2,
+      "useCustomProperties": true,
+      "mobileFirst": true,
+      "avoidIDSelectors": true
+    }
+  },
+  "apexConfig": {
+    "themeVariant": "CollegeModern",
+    "universalTheme": true,
+    "supportDarkMode": true,
+    "supportMobileFirst": true,
+    "fonts": ["Inter", "Nunito Sans", "Manrope"],
+    "colorPalette": {
+      "primary": "#E9B0FF",
+      "secondary": "#A3D6FF",
+      "success": "#6DD58C",
+      "warning": "#FFD480",
+      "danger": "#FF7A7A",
+      "info": "#80D4FF"
+    }
+  },
+  "security": {
+    "enableSessionStateProtection": true,
+    "enableCSPHeaders": true,
+    "requireSSO": true,
+    "enableAuditLogging": true,
+    "enableRLS": true
+  },
+  "integrations": [
+    "PeopleSoft REST API",
+    "University Directory (LDAP/AD)",
+    "Email via Oracle Notifications",
+    "SMS via Twilio"
+  ],
+  "fileStructure": {
+    "apex/pages": "Page definitions and layouts",
+    "apex/shared_components": "Buttons, lists, LOVs, templates",
+    "apex/themes": "Theme customizations",
+    "apex/static": "CSS, JS, images, fonts",
+    "database/tables": "Table definitions with constraints",
+    "database/views": "Business logic views with RLS",
+    "database/packages": "PL/SQL packages for workflows",
+    "database/seeds": "Initial data and reference records",
+    "scripts/liquibase": "Database migration scripts",
+    "scripts/sqlcl": "SQLcl deployment scripts",
+    "docs/design": "Design system and UX specifications"
+  },
+  "conventions": {
+    "files": {
+      "plural": ["tables", "views", "packages"],
+      "naming": "snake_case",
+      "prefixes": {
+        "view": "v_",
+        "package": "pkg_",
+        "function": "fn_",
+        "procedure": "prc_",
+        "table": "t_",
+        "type": "typ_"
+      }
+    },
+    "database": {
+      "auditColumns": ["created_at", "created_by", "updated_at", "updated_by"],
+      "alwaysIncludeTimestamps": true,
+      "alwaysIncludeAudit": true
+    },
+    "apex": {
+      "itemNaming": ":P{PAGE_NUMBER}_{ITEM_NAME}",
+      "useRegions": true,
+      "useTemplates": true
+    }
+  },
+  "performance": {
+    "optimizeLargeDataSets": true,
+    "paginationSize": 20,
+    "lazyLoadRegions": true,
+    "cacheSQLQueries": true
+  },
+  "documentation": {
+    "generateREADMEs": true,
+    "documentAPIs": true,
+    "requireComments": true,
+    "commentStyle": "block"
+  }
+}

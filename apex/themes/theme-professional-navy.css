@@ -1,0 +1,53 @@
+/**
+ * Professional Navy Theme
+ * Formal, executive aesthetic with navy and gold accents
+ * Use: Add class="theme-professional-navy" to <html> element
+ */
+
+:root.theme-professional-navy {
+  /* PRIMARY ACCENT - Gold & Navy */
+  --color-accent-primary: #1E3A8A;        /* Navy blue */
+  --color-accent-secondary: #FBBF24;      /* Gold */
+  --color-accent-tertiary: #3B82F6;       /* Bright blue */
+  
+  /* STATUS COLORS - Executive */
+  --color-success: #065F46;               /* Dark green */
+  --color-warning: #D97706;               /* Amber */
+  --color-danger: #7F1D1D;                /* Dark red */
+  --color-info: #0C4A6E;                  /* Ocean blue */
+  
+  /* BACKGROUNDS - Navy & Cream */
+  --color-bg-primary: #F8FAFC;            /* Cream white */
+  --color-bg-secondary: #F1F5F9;          /* Light blue-gray */
+  --color-bg-tertiary: #E2E8F0;           /* Medium blue-gray */
+  
+  /* TEXT - Navy */
+  --color-text-primary: #0F172A;          /* Navy text */
+  --color-text-secondary: #1E293B;        /* Dark slate */
+  --color-text-tertiary: #475569;         /* Medium slate */
+  
+  /* BORDERS - Navy & Gold */
+  --color-border: #1E40AF;                /* Navy blue */
+  --color-border-light: #DBEAFE;          /* Light blue */
+  --color-border-dark: #1E3A8A;           /* Dark navy */
+}
+
+/* Optional: Dark mode variant for this theme */
+@media (prefers-color-scheme: dark) {
+  :root.theme-professional-navy {
+    --color-bg-primary: #0F172A;          /* Deep navy */
+    --color-bg-secondary: #1E293B;        /* Navy */
+    --color-bg-tertiary: #334155;         /* Lighter navy */
+    
+    --color-text-primary: #FBBF24;        /* Gold text */
+    --color-text-secondary: #F3F4F6;      /* Light gray */
+    --color-text-tertiary: #D1D5DB;       /* Muted gray */
+    
+    --color-border: #FBBF24;              /* Gold */
+    --color-border-light: #1E40AF;        /* Navy */
+    --color-border-dark: #FCD34D;         /* Light gold */
+  }
+}
+
+
+

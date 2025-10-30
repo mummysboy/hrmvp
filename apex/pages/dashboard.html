@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - College HR System</title>
+  <link rel="stylesheet" href="../static/css/design-system.css">
+  <link rel="stylesheet" href="../../css/directory.css">
+  <!-- Theme Files -->
+  <link rel="stylesheet" href="../themes/theme-modern-minimal.css">
+  <link rel="stylesheet" href="../themes/theme-warm-earth.css">
+  <link rel="stylesheet" href="../themes/theme-ocean-breeze.css">
+  <link rel="stylesheet" href="../themes/theme-forest-green.css">
+  <link rel="stylesheet" href="../themes/theme-vibrant-tech.css">
+  <link rel="stylesheet" href="../themes/theme-professional-navy.css">
+  <link rel="stylesheet" href="../themes/theme-sunset-coral.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+    }
+    
+    .page-header {
+      margin-bottom: var(--spacing-3xl);
+    }
+    
+    .page-header h1 {
+      margin-bottom: var(--spacing-sm);
+      font-size: var(--font-size-4xl);
+      color: #2C2C2C; /* Sleek dark gray */
+      font-weight: var(--font-weight-semibold);
+    }
+    
+    .page-header p {
+      font-size: var(--font-size-lg);
+      color: #666666; /* Subtle gray */
+    }
+    
+    .stats-grid {
+      margin-bottom: var(--spacing-3xl);
+    }
+    
+    .stat-card {
+      text-align: center;
+      padding: var(--spacing-xl);
+    }
+    
+    .stat-card h2 {
+      font-size: var(--font-size-4xl);
+      margin: var(--spacing-md) 0;
+      color: #2C2C2C; /* Sleek dark gray */
+      font-weight: var(--font-weight-semibold);
+    }
+    
+    .stat-card p {
+      font-size: var(--font-size-lg);
+      margin: 0;
+    }
+    
+    .dashboard-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-xl);
+      align-items: stretch;
+    }
+    
+    .dashboard-section h2 {
+      margin-bottom: var(--spacing-lg);
+      font-size: var(--font-size-2xl);
+      color: #2C2C2C; /* Sleek dark gray */
+      font-weight: var(--font-weight-semibold);
+    }
+    
+    .activity-item {
+      padding: var(--spacing-md) 0;
+      border-bottom: 1px solid var(--color-border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-info h4 {
+      margin: 0 0 var(--spacing-xs) 0;
+    }
+    
+    .activity-time {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-tertiary);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-lg);
+    }
+    
+    /* Sleek Professional Button Styles */
+    .btn-primary {
+      background: #A51C30 !important; /* Harvard red */
+      background-color: #A51C30 !important;
+      color: #FFFFFF !important;
+      border: none !important;
+      box-shadow: 0 1px 3px rgba(165, 28, 48, 0.2) !important;
+    }
+    
+    .btn-primary:hover {
+      background: #8B1627 !important;
+      background-color: #8B1627 !important;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(165, 28, 48, 0.3) !important;
+    }
+    
+    .btn-secondary {
+      background-color: #FFFFFF !important;
+      color: #2C2C2C !important;
+      border: 1px solid #E5E5E5 !important;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #F8F8F8 !important;
+      border-color: #D0D0D0 !important;
+    }
+    
+    .btn-ghost {
+      color: #666666 !important;
+      border: 1px solid #E5E5E5 !important;
+    }
+    
+    .btn-ghost:hover {
+      background-color: #F8F8F8 !important;
+      border-color: #D0D0D0 !important;
+    }
+    
+    .btn-success {
+      background-color: #2C2C2C !important;
+      color: #FFFFFF !important;
+    }
+    
+    .btn-success:hover {
+      background-color: #1A1A1A !important;
+    }
+    
+    /* Sleek Badge Colors - Subtle Harvard Accents */
+    .badge-primary {
+      background-color: #F5F5F5 !important;
+      color: #666666 !important;
+      border: 1px solid #E5E5E5;
+    }
+    
+    .badge-success {
+      background-color: #F0F7F0 !important;
+      color: #4A6741 !important;
+      border: 1px solid #E0EAE0;
+    }
+    
+    .badge-warning {
+      background-color: #FFF8F0 !important;
+      color: #8B6914 !important;
+      border: 1px solid #F0E8D0;
+    }
+    
+    .badge-danger {
+      background-color: #FCF0F0 !important;
+      color: #A51C30 !important;
+      border: 1px solid #F5E0E0;
+    }
+    
+    .badge-info {
+      background-color: #F5F5F5 !important;
+      color: #666666 !important;
+      border: 1px solid #E5E5E5;
+    }
+    
+    @media (max-width: 992px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Smooth fade-in animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(5px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    
+    /* Apply fade-in to cards */
+    .card {
+      animation: fadeInUp 0.5s ease-out;
+      animation-fill-mode: both;
+    }
+    
+    /* Staggered delays for cards */
+    .stats-grid .card:nth-child(1) { animation-delay: 0ms; }
+    .stats-grid .card:nth-child(2) { animation-delay: 80ms; }
+    .stats-grid .card:nth-child(3) { animation-delay: 160ms; }
+    .stats-grid .card:nth-child(4) { animation-delay: 240ms; }
+    
+    .dashboard-grid .card:nth-child(1) { animation-delay: 320ms; }
+    .dashboard-grid .card:nth-child(2) { animation-delay: 400ms; }
+    
+    /* Apply fade-in to action buttons */
+    .action-buttons .btn {
+      animation: fadeInScale 0.4s ease-out;
+      animation-fill-mode: both;
+    }
+    
+    /* Staggered delays for action buttons */
+    .action-buttons .btn:nth-child(1) { animation-delay: 480ms; }
+    .action-buttons .btn:nth-child(2) { animation-delay: 520ms; }
+    .action-buttons .btn:nth-child(3) { animation-delay: 560ms; }
+    .action-buttons .btn:nth-child(4) { animation-delay: 600ms; }
+    
+    /* Reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .card,
+      .action-buttons .btn {
+        animation: none !important;
+      }
+    }
+    
+    /* Layout improvements for embedded content */
+    .apex-main-container {
+      height: calc(100vh - 120px);
+      overflow: hidden;
+    }
+    .apex-content {
+      overflow: auto;
+    }
+    #embedded-container {
+      height: 100%;
+    }
+    .apex-content iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: unset;
+      border: 0;
+      background: var(--color-bg-primary);
+    }
+    
+    /* Quick Actions responsive layout */
+    .action-buttons { flex-direction: column; }
+    @media (min-width: 992px) {
+      .action-buttons { flex-direction: row; flex-wrap: wrap; }
+      .action-buttons .btn { flex: 1 1 calc(50% - var(--spacing-md)); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Apex Layout Container -->
+  <div class="apex-layout">
+    <!-- Header Bar -->
+    <header class="apex-header">
+      <div class="apex-header-left">
+        <button class="apex-hamburger" aria-label="Toggle sidebar">☰</button>
+        <h1 class="apex-header-title">Harvard University Human Resource Portal</h1>
+      </div>
+      <div class="apex-header-right">
+        <div class="apex-user-menu">
+          <span class="apex-user-email">sjohnson@g.harvard.edu</span>
+          <span class="apex-user-dropdown">▼</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container (Sidebar + Content) -->
+    <div class="apex-main-container">
+      <!-- Left Sidebar -->
+      <aside class="apex-sidebar">
+        <ul class="apex-sidebar-menu">
+          <li class="apex-sidebar-item">
+            <a href="dashboard.html" class="apex-sidebar-link active" data-page="dashboard">
+              <span class="apex-sidebar-text">Home</span>
+            </a>
+          </li>
+          <li class="apex-sidebar-item">
+            <a href="#" class="apex-sidebar-link" data-page="requests">
+              <span class="apex-sidebar-text">My Requests</span>
+            </a>
+          </li>
+
+          <!-- Staff Folder Section -->
+          <li class="apex-sidebar-section" style="margin-top: var(--spacing-lg); padding: 0 var(--spacing-md); color: #888; font-size: var(--font-size-base); letter-spacing: 0.03em; text-transform: uppercase; font-weight: var(--font-weight-semibold);">Staff</li>
+          <li class="apex-sidebar-item">
+            <a href="#" class="apex-sidebar-link" data-page="directory" onclick="loadInPlace('people/directory.html'); return false;">
+              <span class="apex-sidebar-text">Directory</span>
+            </a>
+          </li>
+          <li class="apex-sidebar-item">
+            <a href="#" class="apex-sidebar-link" data-page="new-position-hiring" onclick="loadInPlace('add-staff.html'); return false;">
+              <span class="apex-sidebar-text">New Position &amp; Hiring</span>
+            </a>
+          </li>
+
+        </ul>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="apex-content">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h1>Dashboard</h1>
+          <p>Welcome back, Dr. Sarah Johnson. Here's your HR overview.</p>
+        </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-4 stats-grid">
+    <div class="card stat-card" style="cursor: pointer;" onclick="openPendingApprovalsModal()">
+      <p class="text-muted">Pending Approvals</p>
+      <h2 id="pending-count">24</h2>
+      <p style="font-size: var(--font-size-sm); color: #A51C30; text-decoration: none;">View all →</p>
+    </div>
+    
+    <div class="card stat-card" style="cursor: pointer;" onclick="openCompletedModal()">
+      <p class="text-muted">This Month</p>
+      <h2 id="approved-count">157</h2>
+      <p style="font-size: var(--font-size-sm); color: #666666;">Completed</p>
+    </div>
+    
+    <div class="card stat-card" style="cursor: pointer;" onclick="openDraftsModal()">
+      <p class="text-muted">In Progress</p>
+      <h2 id="draft-count">12</h2>
+      <p style="font-size: var(--font-size-sm); color: #666666;">Drafts</p>
+    </div>
+    
+    <div class="card stat-card" style="cursor: pointer;" onclick="openTotalModal()">
+      <p class="text-muted">System</p>
+      <h2 id="total-count">201</h2>
+      <p style="font-size: var(--font-size-sm); color: #666666;">Total</p>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid dashboard-grid">
+    <!-- Recent Activity -->
+    <div class="dashboard-section">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>Recent Activity</h2>
+        <a href="#" onclick="loadInPlace('requests-list.html'); return false;" style="font-size: var(--font-size-sm); color: #888888; text-decoration: none; font-weight: 400;">View all →</a>
+      </div>
+      
+      <div class="card">
+        <div id="recent-activity"></div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="dashboard-section">
+      <h2>Quick Actions</h2>
+      
+      <div class="card">
+        <div style="padding: var(--spacing-lg);">
+          <h4 style="margin-bottom: var(--spacing-md);">Start a New Request</h4>
+          
+          <div class="action-buttons" style="flex-direction: column;">
+            <button class="btn btn-secondary btn-block" onclick="openRequestModal('NEW_POSITION')">
+              New Position
+            </button>
+            <button class="btn btn-secondary btn-block" onclick="openRequestModal('PROMOTION')">
+              Faculty Promotion
+            </button>
+            <button class="btn btn-secondary btn-block" onclick="openRequestModal('SABBATICAL')">
+              Sabbatical Request
+            </button>
+            <button class="btn btn-secondary btn-block" onclick="openRequestModal('APPOINTMENT')">
+              New Appointment
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Approvals Preview -->
+      <div class="card" style="margin-top: var(--spacing-lg);">
+        <div style="padding: var(--spacing-lg);">
+          <h4 style="margin-bottom: var(--spacing-md);">Your Pending Approvals</h4>
+          <div id="pending-approvals-preview"></div>
+          <button class="btn btn-ghost btn-block" style="margin-top: var(--spacing-md);" onclick="navigateTo('approvals.html')">
+            Go to Approvals
+          </button>
+        </div>
+      </div>
+    </div>
+      </main>
+    </div>
+
+    <!-- Developer Footer -->
+    <footer class="apex-footer">
+      <div class="apex-footer-left">
+        <span>Release 1.0</span>
+      </div>
+      <div class="apex-footer-right">
+        <div class="apex-footer-item">
+          <span>Home</span>
+        </div>
+        <div class="apex-footer-item">
+          <span>App 293307</span>
+        </div>
+        <div class="apex-footer-item">
+          <span>Page 1</span>
+        </div>
+        <div class="apex-footer-item">
+          <span>Session</span>
+        </div>
+        <div class="apex-footer-item">
+          <span>Debug</span>
+        </div>
+        <div class="apex-footer-item">
+          <span>Quick Edit</span>
+        </div>
+        <div class="apex-footer-item">
+          <span>Customize</span>
+        </div>
+        <div class="apex-footer-item">
+          <span>Settings</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../static/js/ui.js"></script>
+  <script src="../static/js/session-store.js"></script>
+  <script src="../static/js/layout.js"></script>
+  <script src="../static/js/theme-manager.js"></script>
+  <script>
+    // Initialize layout
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set active sidebar item
+      if (typeof ApexLayout !== 'undefined') {
+        ApexLayout.setActiveItem('dashboard');
+        // Ensure only Home is highlighted when on Dashboard
+        try {
+          const allLinks = document.querySelectorAll('.apex-sidebar-link');
+          allLinks.forEach(link => link.classList.remove('active'));
+          const homeLink = document.querySelector('.apex-sidebar-link[data-page="dashboard"]');
+          if (homeLink) homeLink.classList.add('active');
+        } catch (_) {}
+      }
+    });
+  </script>
+  <script>
+    // Load a page inside the main content area without leaving the shell
+    function loadInPlace(pagePath) {
+      try {
+        const content = document.querySelector('.apex-content');
+        if (!content) return;
+
+        // Build URL with embed=true (and cache-busting v=2) before any hash (preserve existing query if any)
+        let url = pagePath;
+        const hasEmbedFlag = /[?&#]embed=true/.test(url);
+        if (!hasEmbedFlag) {
+          if (url.includes('#')) {
+            const [base, hash] = url.split('#');
+            const joiner = base.includes('?') ? '&' : '?';
+            url = `${base}${joiner}embed=true#${hash}`;
+          } else {
+            url += (url.includes('?') ? '&' : '?') + 'embed=true';
+          }
+        }
+        // Add version param for cache-busting of ES modules
+        if (url.includes('#')) {
+          const [base, hash] = url.split('#');
+          const joiner = base.includes('?') ? '&' : '?';
+          url = `${base}${/[?&]v=/.test(base) ? '' : joiner + 'v=2'}#${hash}`;
+        } else if (!/[?&]v=/.test(url)) {
+          url += (url.includes('?') ? '&' : '?') + 'v=2';
+        }
+
+        // If the same URL is already loaded, avoid resetting the iframe to prevent loops
+        const existingIframe = content.querySelector('iframe');
+        if (existingIframe && existingIframe.getAttribute('src') === url) {
+          return;
+        }
+
+        content.innerHTML = `
+          <div id=\"embedded-container\" style=\"width: 100%; height: 100%;\">\n            <iframe src=\"${url}\" title=\"Embedded Page\" scrolling=\"yes\" style=\"width: 100%; height: 100%; border: 0; background: var(--color-bg-primary); display: block;\"></iframe>\n          </div>\n        `;
+
+        // Highlight the selected page based on the target path
+        if (typeof ApexLayout !== 'undefined') {
+          const isDirectory = pagePath.includes('people/directory');
+          const match = pagePath.match(/([a-z-]+)\.html/i);
+          const baseName = match ? (match[1].includes('requests') ? 'requests' : match[1]) : 'dashboard';
+          const pageName = isDirectory ? 'directory' : baseName;
+          ApexLayout.setActiveItem(pageName);
+        }
+      } catch (e) {
+        console.error('Failed to load page in place:', e);
+      }
+    }
+
+    // Navigation helper
+    function navigateTo(page) {
+      window.location.href = page;
+    }
+
+    // Open request form inside a modal (popout)
+    function openRequestModal(type) {
+      const titles = {
+        'NEW_POSITION': 'New Position Request',
+        'PROMOTION': 'Faculty Promotion Request',
+        'SABBATICAL': 'Sabbatical Request',
+        'APPOINTMENT': 'New Appointment Request',
+      };
+
+      const iframeSrc = `request-form.html?type=${encodeURIComponent(type)}&embed=true`;
+      const content = `
+        <div style="width: 100%; height: 100%;">
+          <iframe src="${iframeSrc}" title="${titles[type] || 'New Request'}" scrolling="yes" style="width: 100%; height: 100%; min-height: 600px; border: 0; background: var(--color-bg-primary); display: block;"></iframe>
+        </div>
+      `;
+
+      UIKit.modal.create(titles[type] || 'New Request', content, {
+        className: 'modal-xl modal-embedded',
+        backdropClass: 'modal-backdrop-strong'
+      });
+    }
+
+    // Listen for events from embedded request form to close modal and refresh UI
+    window.addEventListener('message', (event) => {
+      // Accept messages from same origin only
+      if (event.origin !== window.location.origin) return;
+      const data = event.data || {};
+
+      // Ignore non-HRMVP messages (e.g., React DevTools handshake)
+      if (!data || typeof data.hrmvp === 'undefined') return;
+      
+      if (data.hrmvp === 'request_submitted') {
+        console.log('✅ Request submission detected, refreshing dashboard...');
+        UIKit.modal.closeAll();
+        UIKit.toast.success('Request submitted successfully!');
+        
+        // Refresh dashboard numbers/sections immediately to show in recent activity
+        if (typeof loadDashboard === 'function') {
+          console.log('🔄 Calling loadDashboard...');
+          setTimeout(() => {
+            loadDashboard();
+            console.log('✅ Dashboard refreshed');
+          }, 100); // Small delay to ensure data is saved
+        } else {
+          console.log('⚠️ loadDashboard function not available, reloading page...');
+          // Fallback: reload the dashboard if function not ready
+          setTimeout(() => window.location.reload(), 500);
+        }
+      }
+      if (data.hrmvp === 'draft_saved') {
+        UIKit.modal.closeAll();
+        UIKit.toast.success('Draft saved');
+        if (typeof loadDashboard === 'function') {
+          loadDashboard();
+        }
+      }
+      if (data.hrmvp === 'close_modal') {
+        UIKit.modal.closeAll();
+      }
+    });
+
+    // Load Dashboard Data
+    function loadDashboard() {
+      try {
+        console.log('📊 Loading dashboard...');
+        console.log('SessionStore available?', typeof SessionStore !== 'undefined');
+        
+        if (typeof SessionStore === 'undefined') {
+          UIKit.toast.error('Data system not ready. Refreshing page...');
+          setTimeout(() => window.location.reload(), 2000);
+          return;
+        }
+
+        const stats = SessionStore.getDashboardStats();
+        const recentActivity = SessionStore.getRecentActivity(5);
+        const pendingApprovals = SessionStore.getPendingApprovals('current-user');
+
+        console.log('✅ Loaded stats:', stats);
+        console.log('✅ Recent activity:', recentActivity.length, 'items');
+        console.log('✅ Pending approvals:', pendingApprovals.length, 'items');
+
+        // Update stats
+        document.getElementById('pending-count').textContent = stats.pending;
+        document.getElementById('approved-count').textContent = stats.approved;
+        document.getElementById('draft-count').textContent = stats.draft;
+        document.getElementById('total-count').textContent = stats.total;
+
+        // Recent Activity
+        const activityHtml = recentActivity.map(item => {
+          const right = item.status === 'DRAFT'
+            ? `<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openEditRequestModal('${item.id}')">Draft</button>`
+            : `<span class="badge badge-${getStatusBadgeColor(item.status)}" style=\"white-space: nowrap;\">${item.status.replace(/_/g, ' ')}</span>`;
+          return `
+          <div class="activity-item" style="cursor: pointer;" onclick="viewRequest('${item.id}')">
+            <div class="activity-info">
+              <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--spacing-xs);">
+                ${formatRequestType(item.type)}
+              </div>
+              <h4 style="margin: 0;">${item.title}</h4>
+              <div class="activity-time">${getTimeAgo(item.timestamp)}</div>
+            </div>
+            ${right}
+          </div>`;
+        }).join('');
+
+        document.getElementById('recent-activity').innerHTML = activityHtml || '<p class="text-muted">No recent activity</p>';
+
+        // Pending Approvals Preview
+        const approvalHtml = pendingApprovals.slice(0, 3).map(req => `
+          <div class="activity-item">
+            <div class="activity-info">
+              <h4 style="margin: 0;">${req.title}</h4>
+              <div class="activity-time">${req.department}</div>
+            </div>
+            <button class="btn btn-sm btn-success" onclick="reviewRequest('${req.id}')">Review</button>
+          </div>
+        `).join('');
+
+        document.getElementById('pending-approvals-preview').innerHTML = approvalHtml || 
+          '<p class="text-muted">No pending approvals</p>';
+
+        // Show submission confirmation banner if redirected from form
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('submitted') === 'true') {
+          UIKit.toast.success('Your request has been submitted for review.');
+          // Clean up the URL without reloading
+          params.delete('submitted');
+          const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+          window.history.replaceState({}, '', newUrl);
+        }
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        UIKit.toast.error('Failed to load dashboard data. Please try again.');
+      }
+    }
+
+    // Helper: Format time ago
+    function getTimeAgo(timestamp) {
+      const date = new Date(timestamp);
+      const now = new Date();
+      const days = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+      
+      if (days === 0) return 'today';
+      if (days === 1) return '1 day ago';
+      if (days < 7) return `${days} days ago`;
+      const weeks = Math.floor(days / 7);
+      if (weeks < 4) return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+      return `${days} days ago`;
+    }
+
+    // Helper: Format request type for display
+    function formatRequestType(type) {
+      const typeMap = {
+        'NEW_POSITION': 'New Position',
+        'PROMOTION': 'Promotion',
+        'SABBATICAL': 'Sabbatical',
+        'APPOINTMENT': 'Appointment',
+        'LEAVE': 'Leave',
+        'TERMINATION': 'Termination',
+        'OTHER': 'Other'
+      };
+      return typeMap[type] || type || 'Request';
+    }
+
+    // Helper: Get badge color by status
+    function getStatusBadgeColor(status) {
+      if (status === 'PENDING_REVIEW') return 'warning';
+      if (status === 'APPROVED') return 'success';
+      if (status === 'REJECTED') return 'danger';
+      if (status === 'DRAFT') return 'info';
+      return 'primary';
+    }
+
+    // Open request detail inside a modal (popout)
+    function openRequestDetailModal(id) {
+      const req = (typeof SessionStore !== 'undefined') ? SessionStore.getRequest(id) : null;
+      const title = req ? `${formatRequestType(req.type)} — ${req.title}` : 'Request Details';
+      const iframeSrc = `request-detail.html?id=${encodeURIComponent(id)}&embed=true`;
+      const content = `
+        <div style="width: 100%; height: 100%;">
+          <iframe src="${iframeSrc}" title="${title}" scrolling="yes" style="width: 100%; height: 100%; min-height: 600px; border: 0; background: var(--color-bg-primary); display: block;"></iframe>
+        </div>
+      `;
+
+      UIKit.modal.create(title, content, {
+        className: 'modal-xl modal-embedded',
+        backdropClass: 'modal-backdrop-strong'
+      });
+    }
+
+    // Review request → open modal
+    function reviewRequest(id) {
+      openRequestDetailModal(id);
+    }
+
+    // View request → open modal
+    function viewRequest(id) {
+      openRequestDetailModal(id);
+    }
+
+    // Edit draft → open form modal prefilled
+    function openEditRequestModal(id) {
+      const req = (typeof SessionStore !== 'undefined') ? SessionStore.getRequest(id) : null;
+      const title = req ? `Edit ${formatRequestType(req.type)} — ${req.title}` : 'Edit Draft';
+      const iframeSrc = `request-form.html?id=${encodeURIComponent(id)}&embed=true`;
+      const content = `
+        <div style="width: 100%; height: 100%;">
+          <iframe src="${iframeSrc}" title="${title}" scrolling="yes" style="width: 100%; height: 100%; min-height: 600px; border: 0; background: var(--color-bg-primary); display: block;"></iframe>
+        </div>
+      `;
+      UIKit.modal.create(title, content, {
+        className: 'modal-xl modal-embedded',
+        backdropClass: 'modal-backdrop-strong'
+      });
+    }
+
+    // Open Pending Approvals Modal
+    function openPendingApprovalsModal() {
+      if (typeof SessionStore === 'undefined') {
+        UIKit.toast.error('Data system not ready');
+        return;
+      }
+
+      const pendingRequests = SessionStore.getRequests({ status: 'PENDING_REVIEW' });
+      
+      let content = '';
+      if (pendingRequests.length === 0) {
+        content = '<p class="text-muted" style="padding: var(--spacing-lg);">No pending approvals at this time.</p>';
+      } else {
+        content = '<div style="padding: var(--spacing-lg);">';
+        pendingRequests.slice(0, 10).forEach(req => {
+          content += `
+            <div class="activity-item" style="cursor: pointer; margin-bottom: var(--spacing-sm);" onclick="reviewRequest('${req.id}')">
+              <div class="activity-info">
+                <h4 style="margin: 0 0 var(--spacing-xs) 0;">${req.title}</h4>
+                <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary);">
+                  ${formatRequestType(req.type)} • ${req.department || 'N/A'}
+                </div>
+              </div>
+              <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); reviewRequest('${req.id}')">Review</button>
+            </div>
+          `;
+        });
+        if (pendingRequests.length > 10) {
+          content += `<p style="color: var(--color-text-tertiary); margin-top: var(--spacing-md);">And ${pendingRequests.length - 10} more...</p>`;
+        }
+        content += '</div>';
+      }
+
+      UIKit.modal.create('Pending Approvals', content, {
+        className: 'modal-large',
+        footer: `
+          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); navigateTo('approvals.html')">
+            View All Approvals
+          </button>
+          <button class="btn btn-primary" onclick="UIKit.modal.closeAll()">Close</button>
+        `
+      });
+    }
+
+    // Open Completed (Approved) Modal
+    function openCompletedModal() {
+      if (typeof SessionStore === 'undefined') {
+        UIKit.toast.error('Data system not ready');
+        return;
+      }
+
+      const approvedRequests = SessionStore.getRequests({ status: 'APPROVED' });
+      
+      let content = '';
+      if (approvedRequests.length === 0) {
+        content = '<p class="text-muted" style="padding: var(--spacing-lg);">No completed requests this month.</p>';
+      } else {
+        content = '<div style="padding: var(--spacing-lg);">';
+        approvedRequests.slice(0, 10).forEach(req => {
+          const date = new Date(req.updatedAt || req.createdAt);
+          const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          
+          content += `
+            <div class="activity-item" style="cursor: pointer; margin-bottom: var(--spacing-sm);" onclick="viewRequest('${req.id}')">
+              <div class="activity-info">
+                <h4 style="margin: 0 0 var(--spacing-xs) 0;">${req.title}</h4>
+                <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary);">
+                  ${formatRequestType(req.type)} • ${req.department || 'N/A'} • ${dateStr}
+                </div>
+              </div>
+              <span class="badge badge-success" style="white-space: nowrap;">Approved</span>
+            </div>
+          `;
+        });
+        if (approvedRequests.length > 10) {
+          content += `<p style="color: var(--color-text-tertiary); margin-top: var(--spacing-md);">And ${approvedRequests.length - 10} more...</p>`;
+        }
+        content += '</div>';
+      }
+
+      UIKit.modal.create('Completed Requests', content, {
+        className: 'modal-large',
+        footer: `
+          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); navigateTo('requests-list.html?status=APPROVED')">
+            View All Completed
+          </button>
+          <button class="btn btn-primary" onclick="UIKit.modal.closeAll()">Close</button>
+        `
+      });
+    }
+
+    // Open Drafts Modal
+    function openDraftsModal() {
+      if (typeof SessionStore === 'undefined') {
+        UIKit.toast.error('Data system not ready');
+        return;
+      }
+
+      const draftRequests = SessionStore.getRequests({ status: 'DRAFT' });
+      
+      let content = '';
+      if (draftRequests.length === 0) {
+        content = '<p class="text-muted" style="padding: var(--spacing-lg);">No draft requests at this time.</p>';
+      } else {
+        content = '<div style="padding: var(--spacing-lg);">';
+        draftRequests.slice(0, 10).forEach(req => {
+          const date = new Date(req.createdAt);
+          const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          
+          content += `
+            <div class="activity-item" style="cursor: pointer; margin-bottom: var(--spacing-sm);" onclick="openEditRequestModal('${req.id}')">
+              <div class="activity-info">
+                <h4 style="margin: 0 0 var(--spacing-xs) 0;">${req.title}</h4>
+                <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary);">
+                  ${formatRequestType(req.type)} • ${req.department || 'N/A'} • ${dateStr}
+                </div>
+              </div>
+              <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); openEditRequestModal('${req.id}')">Continue Editing</button>
+            </div>
+          `;
+        });
+        if (draftRequests.length > 10) {
+          content += `<p style="color: var(--color-text-tertiary); margin-top: var(--spacing-md);">And ${draftRequests.length - 10} more...</p>`;
+        }
+        content += '</div>';
+      }
+
+      UIKit.modal.create('Draft Requests', content, {
+        className: 'modal-large',
+        footer: `
+          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); navigateTo('requests-list.html?status=DRAFT')">
+            View All Drafts
+          </button>
+          <button class="btn btn-primary" onclick="UIKit.modal.closeAll()">Close</button>
+        `
+      });
+    }
+
+    // Open Total System Stats Modal
+    function openTotalModal() {
+      if (typeof SessionStore === 'undefined') {
+        UIKit.toast.error('Data system not ready');
+        return;
+      }
+
+      const stats = SessionStore.getDashboardStats();
+      const allRequests = SessionStore.getRequests();
+      
+      let content = `<div style="padding: var(--spacing-lg);">`;
+      content += `
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+          <div style="padding: var(--spacing-md); background: #F5F5F5; border-radius: var(--radius-md); text-align: center;">
+            <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--spacing-xs);">Total Requests</div>
+            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-semibold); color: #2C2C2C;">${stats.total}</div>
+          </div>
+          <div style="padding: var(--spacing-md); background: #F0F7F0; border-radius: var(--radius-md); text-align: center;">
+            <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--spacing-xs);">Approved</div>
+            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-semibold); color: #4A6741;">${stats.approved}</div>
+          </div>
+          <div style="padding: var(--spacing-md); background: #FFF8F0; border-radius: var(--radius-md); text-align: center;">
+            <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--spacing-xs);">Pending Review</div>
+            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-semibold); color: #8B6914;">${stats.pending}</div>
+          </div>
+          <div style="padding: var(--spacing-md); background: #F5F5F5; border-radius: var(--radius-md); text-align: center;">
+            <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary); margin-bottom: var(--spacing-xs);">Drafts</div>
+            <div style="font-size: var(--font-size-3xl); font-weight: var(--font-weight-semibold); color: #666666;">${stats.draft}</div>
+          </div>
+        </div>
+      `;
+      
+      // Show recent requests
+      content += '<h4 style="margin-bottom: var(--spacing-md);">Recent Activity</h4>';
+      if (allRequests.length === 0) {
+        content += '<p class="text-muted">No requests in the system.</p>';
+      } else {
+        allRequests.slice(0, 8).forEach(req => {
+          const date = new Date(req.updatedAt || req.createdAt);
+          const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          
+          content += `
+            <div class="activity-item" style="cursor: pointer; margin-bottom: var(--spacing-sm);" onclick="viewRequest('${req.id}')">
+              <div class="activity-info">
+                <h4 style="margin: 0 0 var(--spacing-xs) 0; font-size: var(--font-size-base);">${req.title}</h4>
+                <div style="font-size: var(--font-size-sm); color: var(--color-text-tertiary);">
+                  ${formatRequestType(req.type)} • ${req.department || 'N/A'} • ${dateStr}
+                </div>
+              </div>
+              <span class="badge badge-${getStatusBadgeColor(req.status)}" style="white-space: nowrap;">${req.status.replace(/_/g, ' ')}</span>
+            </div>
+          `;
+        });
+        if (allRequests.length > 8) {
+          content += `<p style="color: var(--color-text-tertiary); margin-top: var(--spacing-md);">And ${allRequests.length - 8} more...</p>`;
+        }
+      }
+      
+      content += '</div>';
+
+      UIKit.modal.create('System Overview', content, {
+        className: 'modal-large',
+        footer: `
+          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); navigateTo('requests-list.html')">
+            View All Requests
+          </button>
+          <button class="btn btn-primary" onclick="UIKit.modal.closeAll()">Close</button>
+        `
+      });
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', loadDashboard);
+
+    // (Sidebar navigation DOMContentLoaded binding removed - now handled globally)
+  </script>
+</body>
+</html>
