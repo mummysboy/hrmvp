@@ -274,7 +274,7 @@
     <header class="apex-header">
       <div class="apex-header-left">
         <button class="apex-hamburger" aria-label="Toggle sidebar">☰</button>
-        <h1 class="apex-header-title">Harvard University Human Resource Portal</h1>
+        <h1 class="apex-header-title">Demo University Human Resources Portal</h1>
       </div>
       <div class="apex-header-right">
         <div class="apex-user-menu">
@@ -383,10 +383,10 @@
               New Position
             </button>
             <button class="btn btn-secondary btn-block" onclick="openRequestModal('PROMOTION')">
-              Faculty Promotion
+              Staff Promotion
             </button>
             <button class="btn btn-secondary btn-block" onclick="openRequestModal('SABBATICAL')">
-              Sabbatical Request
+              Time Off Request
             </button>
             <button class="btn btn-secondary btn-block" onclick="openRequestModal('APPOINTMENT')">
               New Appointment
@@ -503,8 +503,8 @@
     function openRequestModal(type) {
       const titles = {
         'NEW_POSITION': 'New Position Request',
-        'PROMOTION': 'Faculty Promotion Request',
-        'SABBATICAL': 'Sabbatical Request',
+        'PROMOTION': 'Staff Promotion Request',
+        'SABBATICAL': 'Time Off Request',
         'APPOINTMENT': 'New Appointment Request',
       };
 
@@ -654,7 +654,7 @@
       const typeMap = {
         'NEW_POSITION': 'New Position',
         'PROMOTION': 'Promotion',
-        'SABBATICAL': 'Sabbatical',
+        'SABBATICAL': 'Time Off',
         'APPOINTMENT': 'Appointment',
         'LEAVE': 'Leave',
         'TERMINATION': 'Termination',
