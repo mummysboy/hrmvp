@@ -1,5 +1,5 @@
 /**
- * Harvard HR Portal
+ * University HR Portal
  * 
  * A single-page application for managing HR requests, approvals, and personnel information.
  * 

@@ -1082,7 +1082,7 @@ textarea {
 
 /* Header Bar */
 .apex-header {
-  background-color: #A51C30; /* Harvard red */
+  background-color: #A51C30; /* University red */
   color: #FFFFFF;
   padding: 0 var(--spacing-lg);
   height: 56px;
@@ -1212,6 +1212,7 @@ textarea {
   text-decoration: none;
   transition: background-color var(--transition-fast);
   border-left: 3px solid transparent;
+  position: relative;
 }
 
 .apex-sidebar-link:hover {
@@ -1221,6 +1222,11 @@ textarea {
 .apex-sidebar-link.active {
   background-color: rgba(255, 255, 255, 0.1);
   border-left-color: #FFFFFF;
+}
+
+.apex-sidebar-link::before,
+.apex-sidebar-link::after {
+  display: none !important;
 }
 
 .apex-sidebar-icon {
@@ -1234,6 +1240,8 @@ textarea {
 .apex-sidebar-text {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  overflow: visible;
 }
 
 /* Main Content Area */

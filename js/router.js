@@ -82,7 +82,7 @@ export function navigate(route, pushState = true) {
   
   // Update document title
   if (currentPage.title) {
-    document.title = `${currentPage.title} - Harvard HR Portal`;
+    document.title = `${currentPage.title} - University HR Portal`;
   }
   
   // Update active sidebar item

@@ -20,6 +20,12 @@ const ApexLayout = {
       userMenu.addEventListener('click', () => this.handleUserMenuClick());
     }
 
+    // Remove title attributes from sidebar links to prevent native tooltips
+    const sidebarLinks = document.querySelectorAll('.apex-sidebar-link');
+    sidebarLinks.forEach(link => {
+      link.removeAttribute('title');
+    });
+
     // Close sidebar when clicking outside on mobile
     if (window.innerWidth <= 768) {
       document.addEventListener('click', (e) => {

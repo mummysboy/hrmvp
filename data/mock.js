@@ -11,7 +11,7 @@ export const seed = {
     { id:"p1",  name:"Prof. Elena Ruiz", title:"Department Chair", email:"elena@dept.edu", phone:"617-495-0001", dept:"Physics", employmentType:"Faculty", status:"Active", startDate:"2014-08-15", location:"Jefferson 410" },
     { id:"p2",  name:"Alex Chen", title:"Lab Manager", email:"alex@dept.edu", phone:"617-495-0002", dept:"Physics", employmentType:"Staff", status:"Active", startDate:"2018-01-10", supervisorId:"p1", tags:["lab-safety"], location:"Jefferson 120" },
     { id:"p3",  name:"Maya Singh", title:"Research Assistant", email:"maya@dept.edu", phone:"617-495-0003", dept:"Physics", employmentType:"Student", status:"Active", startDate:"2024-09-01", supervisorId:"p2", tags:["grant-funded"], location:"Jefferson 125" },
-    { id:"p4",  name:"Dr. Samuel Park", title:"Senior Research Scientist", email:"samuel@dept.edu", dept:"Physics", employmentType:"Faculty", status:"On Leave", startDate:"2012-09-01", supervisorId:"p1", tags:["sabbatical"], location:"Jefferson 305" },
+    { id:"p4",  name:"Dr. Samuel Park", title:"Senior Research Scientist", email:"samuel@dept.edu", dept:"Physics", employmentType:"Faculty", status:"On Leave", startDate:"2012-09-01", supervisorId:"p1", tags:["time off"], location:"Jefferson 305" },
     { id:"p5",  name:"Jamie Rivera", title:"Department Administrator", email:"jamie@dept.edu", dept:"Physics", employmentType:"Staff", status:"Active", startDate:"2016-03-20", supervisorId:"p1", location:"Jefferson 200" },
     { id:"p6",  name:"Priya Patel", title:"Grants Coordinator", email:"priya@dept.edu", dept:"Physics", employmentType:"Staff", status:"Active", startDate:"2019-07-12", supervisorId:"p5", tags:["grant-funded"], location:"Jefferson 205" },
     { id:"p7",  name:"Chris Johnson", title:"IT Support Specialist", email:"chrisj@dept.edu", dept:"Physics", employmentType:"Staff", status:"Active", startDate:"2020-10-01", supervisorId:"p5", tags:["union"], location:"Jefferson 015" },
@@ -44,12 +44,12 @@ export const seed = {
     { id:"p33", name:"Grace Yoon", title:"Grants Manager", email:"grace@bio.edu", dept:"Biology", employmentType:"Staff", status:"Active", startDate:"2016-04-15", supervisorId:"p28", tags:["grant-funded"], location:"BioLabs 210" },
     { id:"p34", name:"Tom Becker", title:"Animal Facility Coordinator", email:"tom@bio.edu", dept:"Biology", employmentType:"Staff", status:"Active", startDate:"2015-11-01", supervisorId:"p29" },
     
-    { id:"p35", name:"Patricia Gomez", title:"HR Director", email:"pgomez@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2010-01-10", location:"Smith Center 700" },
-    { id:"p36", name:"Ian Wright", title:"Recruiter", email:"ian@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2021-06-01", supervisorId:"p35" },
-    { id:"p37", name:"Sofia Rahman", title:"Compensation Analyst", email:"sofia@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2018-03-22", supervisorId:"p35" },
-    { id:"p38", name:"Zoe Park", title:"HRIS Specialist", email:"zoe@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2022-09-15", supervisorId:"p35" },
-    { id:"p39", name:"Louis Chen", title:"Benefits Coordinator", email:"louis@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2017-12-01", supervisorId:"p35" },
-    { id:"p40", name:"Aiden Murphy", title:"Intern", email:"aiden@fas.harvard.edu", dept:"Administration", employmentType:"Student", status:"Active", startDate:"2025-06-01", supervisorId:"p36" }
+    { id:"p35", name:"Patricia Gomez", title:"HR Director", email:"pgomez@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2010-01-10", location:"Smith Center 700" },
+    { id:"p36", name:"Ian Wright", title:"Recruiter", email:"ian@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2021-06-01", supervisorId:"p35" },
+    { id:"p37", name:"Sofia Rahman", title:"Compensation Analyst", email:"sofia@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2018-03-22", supervisorId:"p35" },
+    { id:"p38", name:"Zoe Park", title:"HRIS Specialist", email:"zoe@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2022-09-15", supervisorId:"p35" },
+    { id:"p39", name:"Louis Chen", title:"Benefits Coordinator", email:"louis@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2017-12-01", supervisorId:"p35" },
+    { id:"p40", name:"Aiden Murphy", title:"Intern", email:"aiden@fas.university.edu", dept:"Administration", employmentType:"Student", status:"Active", startDate:"2025-06-01", supervisorId:"p36" }
   ],
   org: {
     root: { 
@@ -64,8 +64,8 @@ export const seed = {
     }
   },
   requests: [
-    { id:"r1", type:"Sabbatical", title:"Sabbatical Leave Request", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-05-02", status:"Draft",
-      description:"One-year sabbatical to work on book manuscript.",
+    { id:"r1", type:"Time Off", title:"Time Off Request", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-05-02", status:"Draft",
+      description:"One-year time off to work on book manuscript.",
       details:{ duration:"12 months", startDate:"2026-01-01", coveragePlan:"Teach-out completed, graduate advising delegated" }
     },
     { id:"r2", type:"New Position", title:"Senior Research Scientist", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-04-29", status:"Pending Review" },
@@ -75,8 +75,8 @@ export const seed = {
     },
     { id:"r4", type:"New Position", title:"Grant Funding Coordinator", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-04-10", status:"Rejected" },
     { id:"r5", type:"Change", title:"Title change – Lab Manager to Operations Manager", dept:"Physics", requester:"Jamie Rivera", submitted:"2025-03-22", status:"Pending Review" },
-    { id:"r6", type:"Sabbatical", title:"Sabbatical – Dr. Hannah Ito", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-02-15", status:"Approved",
-      description:"One-term sabbatical for experimental collaboration in Japan.",
+    { id:"r6", type:"Time Off", title:"Time Off – Dr. Hannah Ito", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-02-15", status:"Approved",
+      description:"One-term time off for experimental collaboration in Japan.",
       details:{ duration:"6 months", startDate:"2025-09-01", coveragePlan:"Postdoc covering undergraduate lab", notes:"Grant covers travel" }
     },
     { id:"r7", type:"New Position", title:"Instrument Specialist (Chemistry)", dept:"Chemistry", requester:"Laura Nguyen", submitted:"2025-05-10", status:"Pending Review" },
@@ -90,7 +90,7 @@ export const seed = {
       details:{ requestedFTE:"1.0", fundingSource:"Central Admin Budget", salaryRange:"$70,000–$82,000", workLocation:"Hybrid (Cambridge)", justification:"Increased reporting workload and integrations", startDate:"2025-11-01" }
     },
     { id:"r11", type:"Change", title:"Supervisor change – Research Technician", dept:"Physics", requester:"Alex Chen", submitted:"2025-05-12", status:"Pending Review" },
-    { id:"r12", type:"Sabbatical", title:"Sabbatical – Dr. Marco De Luca", dept:"Physics", requester:"Elena Ruiz", submitted:"2025-03-28", status:"Approved",
+    { id:"r12", type:"Time Off", title:"Time Off – Dr. Marco De Luca", dept:"Physics", requester:"Elena Ruiz", submitted:"2025-03-28", status:"Approved",
       description:"Research residency at partner institute.",
       details:{ duration:"12 months", startDate:"2026-01-01", hostInstitution:"Scuola Normale Superiore", coveragePlan:"Visiting lecturer hired" }
     },
@@ -101,7 +101,7 @@ export const seed = {
     { id:"r14", type:"Promotion", title:"Promotion – Research Scientist (Biology)", dept:"Biology", requester:"Karen Li", submitted:"2025-02-12", status:"Pending Review" },
     { id:"r15", type:"Change", title:"Salary adjustment – Systems Administrator", dept:"Physics", requester:"Olivia Garcia", submitted:"2025-01-30", status:"Rejected" },
     { id:"r16", type:"New Position", title:"Graduate Research Assistant (Biology)", dept:"Biology", requester:"Karen Li", submitted:"2025-05-01", status:"Pending Review" },
-    { id:"r17", type:"Sabbatical", title:"Sabbatical – Prof. Karen Li", dept:"Biology", requester:"Karen Li", submitted:"2025-04-12", status:"Draft" },
+    { id:"r17", type:"Time Off", title:"Time Off – Prof. Karen Li", dept:"Biology", requester:"Karen Li", submitted:"2025-04-12", status:"Draft" },
     { id:"r18", type:"New Position", title:"Benefits Coordinator (Admin)", dept:"Administration", requester:"Patricia Gomez", submitted:"2025-02-05", status:"Approved",
       description:"Convert temp Benefits Assistant to regular Benefits Coordinator.",
       details:{ requestedFTE:"1.0", fundingSource:"Benefits Office", salaryRange:"$58,000–$66,000", startDate:"2025-06-15", notes:"Temp currently in seat; converting to regular", actionsPostApproval:["Post job internally","Initiate background check","Provision systems access"] }

@@ -286,7 +286,7 @@ const SessionStore = {
         { id:"p1",  name:"Prof. Elena Ruiz", title:"Department Chair", email:"elena@dept.edu", phone:"617-495-0001", dept:"Physics", employmentType:"Faculty", status:"Active", startDate:"2014-08-15", location:"Jefferson 410" },
         { id:"p2",  name:"Alex Chen", title:"Lab Manager", email:"alex@dept.edu", phone:"617-495-0002", dept:"Physics", employmentType:"Staff", status:"Active", startDate:"2018-01-10", supervisorId:"p1", tags:["lab-safety"], location:"Jefferson 120" },
         { id:"p3",  name:"Maya Singh", title:"Research Assistant", email:"maya@dept.edu", phone:"617-495-0003", dept:"Physics", employmentType:"Student", status:"Active", startDate:"2024-09-01", supervisorId:"p2", tags:["grant-funded"], location:"Jefferson 125" },
-        { id:"p4",  name:"Dr. Samuel Park", title:"Senior Research Scientist", email:"samuel@dept.edu", dept:"Physics", employmentType:"Faculty", status:"On Leave", startDate:"2012-09-01", supervisorId:"p1", tags:["sabbatical"], location:"Jefferson 305" },
+        { id:"p4",  name:"Dr. Samuel Park", title:"Senior Research Scientist", email:"samuel@dept.edu", dept:"Physics", employmentType:"Faculty", status:"On Leave", startDate:"2012-09-01", supervisorId:"p1", tags:["time-off"], location:"Jefferson 305" },
         { id:"p5",  name:"Jamie Rivera", title:"Department Administrator", email:"jamie@dept.edu", dept:"Physics", employmentType:"Staff", status:"Active", startDate:"2016-03-20", supervisorId:"p1", location:"Jefferson 200" },
         { id:"p6",  name:"Priya Patel", title:"Grants Coordinator", email:"priya@dept.edu", dept:"Physics", employmentType:"Staff", status:"Active", startDate:"2019-07-12", supervisorId:"p5", tags:["grant-funded"], location:"Jefferson 205" },
         { id:"p7",  name:"Chris Johnson", title:"IT Support Specialist", email:"chrisj@dept.edu", dept:"Physics", employmentType:"Staff", status:"Active", startDate:"2020-10-01", supervisorId:"p5", tags:["union"], location:"Jefferson 015" },
@@ -317,12 +317,12 @@ const SessionStore = {
         { id:"p32", name:"Mina Okafor", title:"Research Assistant", email:"mina@bio.edu", dept:"Biology", employmentType:"Student", status:"Active", startDate:"2024-09-01", supervisorId:"p29" },
         { id:"p33", name:"Grace Yoon", title:"Grants Manager", email:"grace@bio.edu", dept:"Biology", employmentType:"Staff", status:"Active", startDate:"2016-04-15", supervisorId:"p28", tags:["grant-funded"], location:"BioLabs 210" },
         { id:"p34", name:"Tom Becker", title:"Animal Facility Coordinator", email:"tom@bio.edu", dept:"Biology", employmentType:"Staff", status:"Active", startDate:"2015-11-01", supervisorId:"p29" },
-        { id:"p35", name:"Patricia Gomez", title:"HR Director", email:"pgomez@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2010-01-10", location:"Smith Center 700" },
-        { id:"p36", name:"Ian Wright", title:"Recruiter", email:"ian@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2021-06-01", supervisorId:"p35" },
-        { id:"p37", name:"Sofia Rahman", title:"Compensation Analyst", email:"sofia@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2018-03-22", supervisorId:"p35" },
-        { id:"p38", name:"Zoe Park", title:"HRIS Specialist", email:"zoe@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2022-09-15", supervisorId:"p35" },
-        { id:"p39", name:"Louis Chen", title:"Benefits Coordinator", email:"louis@fas.harvard.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2017-12-01", supervisorId:"p35" },
-        { id:"p40", name:"Aiden Murphy", title:"Intern", email:"aiden@fas.harvard.edu", dept:"Administration", employmentType:"Student", status:"Active", startDate:"2025-06-01", supervisorId:"p36" }
+        { id:"p35", name:"Patricia Gomez", title:"HR Director", email:"pgomez@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2010-01-10", location:"Smith Center 700" },
+        { id:"p36", name:"Ian Wright", title:"Recruiter", email:"ian@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2021-06-01", supervisorId:"p35" },
+        { id:"p37", name:"Sofia Rahman", title:"Compensation Analyst", email:"sofia@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2018-03-22", supervisorId:"p35" },
+        { id:"p38", name:"Zoe Park", title:"HRIS Specialist", email:"zoe@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2022-09-15", supervisorId:"p35" },
+        { id:"p39", name:"Louis Chen", title:"Benefits Coordinator", email:"louis@fas.university.edu", dept:"Administration", employmentType:"Staff", status:"Active", startDate:"2017-12-01", supervisorId:"p35" },
+        { id:"p40", name:"Aiden Murphy", title:"Intern", email:"aiden@fas.university.edu", dept:"Administration", employmentType:"Student", status:"Active", startDate:"2025-06-01", supervisorId:"p36" }
       ],
       requests: [
         {
@@ -363,9 +363,9 @@ const SessionStore = {
         // Previous months - approved examples for trend/analytics
         {
           id: '6',
-          title: 'Sabbatical Request — Dr. Alvarez',
-          type: 'SABBATICAL',
-          description: 'Six-month sabbatical for research abroad.',
+          title: 'Time Off Request — Dr. Alvarez',
+          type: 'TIME_OFF',
+          description: 'Six-month time off for research abroad.',
           department: 'Linguistics',
           status: 'APPROVED',
           createdAt: monthsAgo(2).toISOString(),
@@ -414,9 +414,9 @@ const SessionStore = {
         },
         {
           id: '3',
-          title: 'Sabbatical Leave Request',
-          type: 'SABBATICAL',
-          description: 'One-year sabbatical leave for research and publication.',
+          title: 'Time Off Request',
+          type: 'TIME_OFF',
+          description: 'One-year time off leave for research and publication.',
           department: 'History',
           status: 'DRAFT',
           createdAt: fourMinutesAgo.toISOString(),

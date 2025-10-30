@@ -100,7 +100,7 @@
     
     /* Sleek Professional Button Styles */
     .btn-primary {
-      background: #A51C30 !important; /* Harvard red */
+      background: #A51C30 !important; /* University red */
       background-color: #A51C30 !important;
       color: #FFFFFF !important;
       border: none !important;
@@ -144,7 +144,7 @@
       background-color: #1A1A1A !important;
     }
     
-    /* Sleek Badge Colors - Subtle Harvard Accents */
+    /* Sleek Badge Colors - Subtle University Accents */
     .badge-primary {
       background-color: #F5F5F5 !important;
       color: #666666 !important;
@@ -265,6 +265,50 @@
       .action-buttons { flex-direction: row; flex-wrap: wrap; }
       .action-buttons .btn { flex: 1 1 calc(50% - var(--spacing-md)); }
     }
+    
+    /* User menu dropdown */
+    .apex-user-menu {
+      position: relative;
+    }
+    
+    .user-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: white;
+      border: 1px solid #E5E5E5;
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      min-width: 180px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all var(--transition-base);
+      z-index: 1000;
+    }
+    
+    .user-dropdown-menu.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    .user-dropdown-item {
+      padding: var(--spacing-md);
+      cursor: pointer;
+      color: #2C2C2C;
+      font-size: var(--font-size-base);
+      transition: background-color var(--transition-fast);
+      border-bottom: 1px solid #F5F5F5;
+    }
+    
+    .user-dropdown-item:last-child {
+      border-bottom: none;
+    }
+    
+    .user-dropdown-item:hover {
+      background-color: #F8F8F8;
+    }
   </style>
 </head>
 <body>
@@ -277,9 +321,14 @@
         <h1 class="apex-header-title">Demo University Human Resources Portal</h1>
       </div>
       <div class="apex-header-right">
-        <div class="apex-user-menu">
-          <span class="apex-user-email">sjohnson@g.harvard.edu</span>
+        <div class="apex-user-menu" onclick="toggleUserDropdown()">
+          <span class="apex-user-email">sjohnson@g.university.edu</span>
           <span class="apex-user-dropdown">▼</span>
+          <div class="user-dropdown-menu" id="userDropdownMenu">
+            <div class="user-dropdown-item" onclick="handleUserMenuClick('account')">Account</div>
+            <div class="user-dropdown-item" onclick="handleUserMenuClick('settings')">Settings</div>
+            <div class="user-dropdown-item" onclick="handleUserMenuClick('logout')">Logout</div>
+          </div>
         </div>
       </div>
     </header>
@@ -385,7 +434,7 @@
             <button class="btn btn-secondary btn-block" onclick="openRequestModal('PROMOTION')">
               Staff Promotion
             </button>
-            <button class="btn btn-secondary btn-block" onclick="openRequestModal('SABBATICAL')">
+            <button class="btn btn-secondary btn-block" onclick="openRequestModal('TIME_OFF')">
               Time Off Request
             </button>
             <button class="btn btn-secondary btn-block" onclick="openRequestModal('APPOINTMENT')">
@@ -435,6 +484,36 @@
     });
   </script>
   <script>
+    // User menu dropdown functionality
+    function toggleUserDropdown() {
+      event.stopPropagation();
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) {
+        menu.classList.toggle('show');
+      }
+    }
+    
+    // Handle user menu item clicks
+    function handleUserMenuClick(action) {
+      event.stopPropagation();
+      UIKit.toast.info('Oops! These features are not ready yet.');
+      
+      // Close the dropdown
+      const menu = document.getElementById('userDropdownMenu');
+      if (menu) {
+        menu.classList.remove('show');
+      }
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('userDropdownMenu');
+      const userMenu = document.querySelector('.apex-user-menu');
+      if (menu && userMenu && !userMenu.contains(event.target)) {
+        menu.classList.remove('show');
+      }
+    });
+    
     // Load a page inside the main content area without leaving the shell
     function loadInPlace(pagePath) {
       try {
@@ -504,7 +583,7 @@
       const titles = {
         'NEW_POSITION': 'New Position Request',
         'PROMOTION': 'Staff Promotion Request',
-        'SABBATICAL': 'Time Off Request',
+        'TIME_OFF': 'Time Off Request',
         'APPOINTMENT': 'New Appointment Request',
       };
 
@@ -654,7 +733,7 @@
       const typeMap = {
         'NEW_POSITION': 'New Position',
         'PROMOTION': 'Promotion',
-        'SABBATICAL': 'Time Off',
+        'TIME_OFF': 'Time Off',
         'APPOINTMENT': 'Appointment',
         'LEAVE': 'Leave',
         'TERMINATION': 'Termination',

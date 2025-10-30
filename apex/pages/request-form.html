@@ -166,7 +166,7 @@
     
     /* Sleek Professional Button Styles - matching dashboard */
     .btn-primary {
-      background: #A51C30 !important; /* Harvard red */
+      background: #A51C30 !important; /* University red */
       background-color: #A51C30 !important;
       color: #FFFFFF !important;
       border: none !important;
@@ -383,7 +383,7 @@
         </div>
 
         <div id="sabbatical-fields" class="form-section hidden">
-          <div class="form-section-title">Sabbatical Details</div>
+          <div class="form-section-title">Time Off Details</div>
 
           <div class="form-columns">
             <div class="form-group">
@@ -403,7 +403,7 @@
 
           <div class="form-group">
             <label>Research Focus / Purpose</label>
-            <textarea id="sabbaticalPurpose" placeholder="Describe your research plans or other sabbatical activities..."></textarea>
+              <textarea id="sabbaticalPurpose" placeholder="Describe your research plans or other time off activities..."></textarea>
           </div>
         </div>
 
@@ -515,9 +515,10 @@
             description = 'Submit a promotion request for faculty member';
             showFields(['promotion-fields']);
             break;
+          case 'TIME_OFF':
           case 'SABBATICAL':
-            title = 'Sabbatical Leave Request';
-            description = 'Request sabbatical leave for research or other activities';
+            title = 'Time Off Request';
+            description = 'Request time off for research or other activities';
             showFields(['sabbatical-fields']);
             break;
           case 'APPOINTMENT':
@@ -565,7 +566,7 @@
             document.getElementById('employeeName').value = existing.employeeName || '';
             document.getElementById('currentPosition').value = existing.currentPosition || '';
             document.getElementById('promotedTo').value = existing.promotedTo || '';
-          } else if (existing.type === 'SABBATICAL') {
+          } else if (existing.type === 'SABBATICAL' || existing.type === 'TIME_OFF') {
             document.getElementById('duration').value = existing.duration || '';
             document.getElementById('sabbaticalStartDate').value = existing.startDate || '';
             document.getElementById('sabbaticalPurpose').value = existing.sabbaticalPurpose || '';
@@ -820,7 +821,7 @@
             promotedTo: requestData.promotedTo,
             employeeId: requestData.employeeId
           });
-        } else if (requestType === 'SABBATICAL') {
+        } else if (requestType === 'SABBATICAL' || requestType === 'TIME_OFF') {
           requestData.duration = document.getElementById('duration')?.value || '';
           requestData.startDate = document.getElementById('sabbaticalStartDate')?.value || '';
           requestData.sabbaticalPurpose = document.getElementById('sabbaticalPurpose')?.value || '';
@@ -913,8 +914,8 @@
         if (data.currentPosition) reviewHtml += `<div class="review-field"><div class="review-field-label">Current Position</div><div class="review-field-value">${escapeHtml(data.currentPosition)}</div></div>`;
         if (data.promotedTo) reviewHtml += `<div class="review-field"><div class="review-field-label">Promoted To</div><div class="review-field-value">${escapeHtml(data.promotedTo)}</div></div>`;
         reviewHtml += '</div>';
-      } else if (data.type === 'SABBATICAL') {
-        reviewHtml += '<div class="review-section"><div class="review-section-title">Sabbatical Details</div>';
+      } else if (data.type === 'SABBATICAL' || data.type === 'TIME_OFF') {
+        reviewHtml += '<div class="review-section"><div class="review-section-title">Time Off Details</div>';
         if (data.duration) reviewHtml += `<div class="review-field"><div class="review-field-label">Duration</div><div class="review-field-value">${escapeHtml(data.duration)}</div></div>`;
         if (data.startDate) reviewHtml += `<div class="review-field"><div class="review-field-label">Start Date</div><div class="review-field-value">${escapeHtml(data.startDate)}</div></div>`;
         if (data.sabbaticalPurpose) reviewHtml += `<div class="review-field"><div class="review-field-label">Research Focus / Purpose</div><div class="review-field-value">${escapeHtml(data.sabbaticalPurpose)}</div></div>`;
@@ -951,7 +952,8 @@
           reviewTitle = 'Review Faculty Promotion Request';
           break;
         case 'SABBATICAL':
-          reviewTitle = 'Review Sabbatical Request';
+        case 'TIME_OFF':
+          reviewTitle = 'Review Time Off Request';
           break;
         case 'APPOINTMENT':
           reviewTitle = 'Review Appointment Request';
@@ -1029,7 +1031,8 @@
               description = 'Submit a promotion request for faculty member';
               break;
             case 'SABBATICAL':
-              description = 'Request sabbatical leave for research or other activities';
+            case 'TIME_OFF':
+              description = 'Request time off for research or other activities';
               break;
             case 'APPOINTMENT':
               description = 'Request a new appointment (e.g., Department Chair)';
@@ -1135,7 +1138,7 @@
           requestData.employeeName = document.getElementById('employeeName').value;
           requestData.currentPosition = document.getElementById('currentPosition').value;
           requestData.promotedTo = document.getElementById('promotedTo').value;
-        } else if (requestType === 'SABBATICAL') {
+        } else if (requestType === 'SABBATICAL' || requestType === 'TIME_OFF') {
           requestData.duration = document.getElementById('duration').value;
           requestData.startDate = document.getElementById('sabbaticalStartDate').value;
           requestData.sabbaticalPurpose = document.getElementById('sabbaticalPurpose').value;
