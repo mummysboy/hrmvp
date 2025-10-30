@@ -17,7 +17,8 @@ const menuConfig = [
       { id: 'requests-change', label: 'Change to Existing Employee', route: '/requests/change', icon: '📝' },
       { id: 'requests-leave', label: 'Sabbatical / Leave', route: '/requests/leave', icon: '🏖️' },
       { id: 'requests-offboard', label: 'Termination / Offboarding', route: '/requests/offboard', icon: '👋' },
-      { id: 'requests-all', label: 'All Requests', route: '/requests', icon: '📋' }
+      { id: 'requests-all', label: 'All Requests', route: '/requests', icon: '📋' },
+      { id: 'requests-calendar', label: 'Calendar', route: '/requests/calendar', icon: '📅' }
     ]
   },
   {

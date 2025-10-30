@@ -1,9 +1,9 @@
 // Accessible right-side drawer with focus trap
 
 let lastFocused = null;
-let currentDrawer = null;
+let currentDrawer = null; // overlay element
 
-export function openDrawer({ title = '', content = '', width = 480, labelledById } = {}) {
+export function openDrawer({ title = '', content = '', width = 480, labelledById, backdrop = true, backdropColor = 'rgba(0,0,0,0.3)' } = {}) {
   closeDrawer();
   lastFocused = document.activeElement;
 
@@ -11,17 +11,25 @@ export function openDrawer({ title = '', content = '', width = 480, labelledById
   overlay.className = 'drawer-overlay';
   overlay.style.position = 'fixed';
   overlay.style.inset = '0';
-  overlay.style.background = 'rgba(0,0,0,0.3)';
+  overlay.style.background = backdrop ? backdropColor : 'transparent';
   overlay.style.zIndex = '1400';
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) closeDrawer();
-  });
+  if (backdrop) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeDrawer();
+    });
+  } else {
+    // Allow clicks to pass through overlay when backdrop is disabled
+    overlay.style.pointerEvents = 'none';
+  }
 
   const drawer = document.createElement('div');
   drawer.className = 'drawer';
   drawer.setAttribute('role', 'dialog');
   drawer.setAttribute('aria-modal', 'true');
   drawer.style.width = `${width}px`;
+  if (!backdrop) {
+    drawer.style.pointerEvents = 'auto';
+  }
 
   const headerId = labelledById || `drawer-title-${Date.now()}`;
   drawer.setAttribute('aria-labelledby', headerId);
@@ -53,6 +61,21 @@ export function closeDrawer() {
   }
   if (lastFocused && typeof lastFocused.focus === 'function') {
     lastFocused.focus();
+  }
+}
+
+// Update existing drawer title/body without closing
+export function setDrawerContent({ title, content }) {
+  if (!currentDrawer) return;
+  const dlg = currentDrawer.querySelector('.drawer');
+  if (!dlg) return;
+  if (typeof title === 'string') {
+    const h2 = dlg.querySelector('.drawer-header h2');
+    if (h2) h2.textContent = title;
+  }
+  if (typeof content === 'string') {
+    const body = dlg.querySelector('.drawer-body');
+    if (body) body.innerHTML = content;
   }
 }
 

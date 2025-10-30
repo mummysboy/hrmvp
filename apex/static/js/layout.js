@@ -73,6 +73,29 @@ const ApexLayout = {
       });
       directoryLink.setAttribute('data-bound', 'true');
     }
+
+    // Calendar link -> SPA calendar view
+    const calendarLink = document.querySelector('.apex-sidebar-link[data-page="calendar"]');
+    if (calendarLink && !calendarLink.hasAttribute('data-bound')) {
+      calendarLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (typeof loadInPlace === 'function') {
+          loadInPlace('../../index.html#/requests/calendar');
+          setTimeout(() => {
+            const iframe = document.querySelector('.apex-content iframe');
+            if (!iframe || !iframe.contentWindow) {
+              window.location.href = '../../index.html?embed=true#/requests/calendar';
+            }
+          }, 1200);
+        } else {
+          window.location.href = '../../index.html?embed=true#/requests/calendar';
+        }
+        if (typeof ApexLayout !== 'undefined') {
+          ApexLayout.setActiveItem('calendar');
+        }
+      });
+      calendarLink.setAttribute('data-bound', 'true');
+    }
   },
 
   /**

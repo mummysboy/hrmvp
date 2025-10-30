@@ -64,24 +64,48 @@ export const seed = {
     }
   },
   requests: [
-    { id:"r1", type:"Sabbatical", title:"Sabbatical Leave Request", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-05-02", status:"Draft" },
+    { id:"r1", type:"Sabbatical", title:"Sabbatical Leave Request", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-05-02", status:"Draft",
+      description:"One-year sabbatical to work on book manuscript.",
+      details:{ duration:"12 months", startDate:"2026-01-01", coveragePlan:"Teach-out completed, graduate advising delegated" }
+    },
     { id:"r2", type:"New Position", title:"Senior Research Scientist", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-04-29", status:"Pending Review" },
-    { id:"r3", type:"Promotion", title:"Promotion – Dr. Lila Ahmed", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-04-20", status:"Approved" },
+    { id:"r3", type:"Promotion", title:"Promotion – Dr. Lila Ahmed", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-04-20", status:"Approved",
+      description:"Promotion to Associate Professor.",
+      details:{ effectiveDate:"2025-07-01", dossierComplete:"Yes", committeeVote:"8-1", salaryAdjustment:"+7%", notes:"External letters received" }
+    },
     { id:"r4", type:"New Position", title:"Grant Funding Coordinator", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-04-10", status:"Rejected" },
     { id:"r5", type:"Change", title:"Title change – Lab Manager to Operations Manager", dept:"Physics", requester:"Jamie Rivera", submitted:"2025-03-22", status:"Pending Review" },
-    { id:"r6", type:"Sabbatical", title:"Sabbatical – Dr. Hannah Ito", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-02-15", status:"Approved" },
+    { id:"r6", type:"Sabbatical", title:"Sabbatical – Dr. Hannah Ito", dept:"Physics", requester:"Sarah Johnson", submitted:"2025-02-15", status:"Approved",
+      description:"One-term sabbatical for experimental collaboration in Japan.",
+      details:{ duration:"6 months", startDate:"2025-09-01", coveragePlan:"Postdoc covering undergraduate lab", notes:"Grant covers travel" }
+    },
     { id:"r7", type:"New Position", title:"Instrument Specialist (Chemistry)", dept:"Chemistry", requester:"Laura Nguyen", submitted:"2025-05-10", status:"Pending Review" },
     { id:"r8", type:"Change", title:"Correction to FTE – Grants Manager", dept:"Biology", requester:"Karen Li", submitted:"2025-05-08", status:"Needs Revision" },
-    { id:"r9", type:"Promotion", title:"Promotion – Associate to Full Professor (Physics)", dept:"Physics", requester:"Elena Ruiz", submitted:"2025-03-05", status:"Rejected" },
-    { id:"r10", type:"New Position", title:"HRIS Specialist (Administration)", dept:"Administration", requester:"Patricia Gomez", submitted:"2025-04-02", status:"Approved" },
+    { id:"r9", type:"Promotion", title:"Promotion – Associate to Full Professor (Physics)", dept:"Physics", requester:"Elena Ruiz", submitted:"2025-03-05", status:"Rejected",
+      description:"Case did not meet criteria for national distinction.",
+      details:{ rejectionReason:"Insufficient publications in top journals", committeeVote:"3-6", appealWindow:"30 days", notes:"Encourage resubmission next year", peopleInvolved:["Dept Committee","Dean's Office","External Reviewers"] }
+    },
+    { id:"r10", type:"New Position", title:"HRIS Specialist (Administration)", dept:"Administration", requester:"Patricia Gomez", submitted:"2025-04-02", status:"Approved",
+      description:"Create new HRIS Specialist role to support Workday reporting.",
+      details:{ requestedFTE:"1.0", fundingSource:"Central Admin Budget", salaryRange:"$70,000–$82,000", workLocation:"Hybrid (Cambridge)", justification:"Increased reporting workload and integrations", startDate:"2025-11-01" }
+    },
     { id:"r11", type:"Change", title:"Supervisor change – Research Technician", dept:"Physics", requester:"Alex Chen", submitted:"2025-05-12", status:"Pending Review" },
-    { id:"r12", type:"Sabbatical", title:"Sabbatical – Dr. Marco De Luca", dept:"Physics", requester:"Elena Ruiz", submitted:"2025-03-28", status:"Approved" },
-    { id:"r13", type:"New Position", title:"Administrative Coordinator (Chemistry)", dept:"Chemistry", requester:"Laura Nguyen", submitted:"2025-01-18", status:"Approved" },
+    { id:"r12", type:"Sabbatical", title:"Sabbatical – Dr. Marco De Luca", dept:"Physics", requester:"Elena Ruiz", submitted:"2025-03-28", status:"Approved",
+      description:"Research residency at partner institute.",
+      details:{ duration:"12 months", startDate:"2026-01-01", hostInstitution:"Scuola Normale Superiore", coveragePlan:"Visiting lecturer hired" }
+    },
+    { id:"r13", type:"New Position", title:"Administrative Coordinator (Chemistry)", dept:"Chemistry", requester:"Laura Nguyen", submitted:"2025-01-18", status:"Approved",
+      description:"Backfill for administrative coordinator supporting chair and faculty.",
+      details:{ requestedFTE:"1.0", fundingSource:"Dept Operating", salaryRange:"$55,000–$62,000", workLocation:"Onsite (Mallinckrodt)", replacementFor:"Vacated role — retirement", startDate:"2025-09-01" }
+    },
     { id:"r14", type:"Promotion", title:"Promotion – Research Scientist (Biology)", dept:"Biology", requester:"Karen Li", submitted:"2025-02-12", status:"Pending Review" },
     { id:"r15", type:"Change", title:"Salary adjustment – Systems Administrator", dept:"Physics", requester:"Olivia Garcia", submitted:"2025-01-30", status:"Rejected" },
     { id:"r16", type:"New Position", title:"Graduate Research Assistant (Biology)", dept:"Biology", requester:"Karen Li", submitted:"2025-05-01", status:"Pending Review" },
     { id:"r17", type:"Sabbatical", title:"Sabbatical – Prof. Karen Li", dept:"Biology", requester:"Karen Li", submitted:"2025-04-12", status:"Draft" },
-    { id:"r18", type:"New Position", title:"Benefits Coordinator (Admin)", dept:"Administration", requester:"Patricia Gomez", submitted:"2025-02-05", status:"Approved" },
+    { id:"r18", type:"New Position", title:"Benefits Coordinator (Admin)", dept:"Administration", requester:"Patricia Gomez", submitted:"2025-02-05", status:"Approved",
+      description:"Convert temp Benefits Assistant to regular Benefits Coordinator.",
+      details:{ requestedFTE:"1.0", fundingSource:"Benefits Office", salaryRange:"$58,000–$66,000", startDate:"2025-06-15", notes:"Temp currently in seat; converting to regular", actionsPostApproval:["Post job internally","Initiate background check","Provision systems access"] }
+    },
     { id:"r19", type:"Change", title:"Extend temp appointment – Administrative Assistant", dept:"Physics", requester:"Jamie Rivera", submitted:"2025-05-15", status:"Pending Review" },
     { id:"r20", type:"Promotion", title:"Promotion – Grants Coordinator", dept:"Physics", requester:"Jamie Rivera", submitted:"2025-05-09", status:"Pending Review" }
   ],
@@ -89,11 +113,24 @@ export const seed = {
     { id:"a1", requestId:"r2", approver:"Elena Ruiz", status:"Pending", due:"2025-05-10" },
     { id:"a2", requestId:"r7", approver:"Laura Nguyen", status:"Pending", due:"2025-05-18" },
     { id:"a3", requestId:"r8", approver:"Karen Li", status:"Pending", due:"2025-05-14" },
-    { id:"a4", requestId:"r10", approver:"Patricia Gomez", status:"Approved", due:"2025-04-05" },
-    { id:"a5", requestId:"r13", approver:"Laura Nguyen", status:"Approved", due:"2025-01-20" },
+    // Completed this month (for Completed Approvals page)
+    { id:"a4", requestId:"r10", approver:"Patricia Gomez", status:"Completed", completedDate:"2025-10-15", due:"2025-04-05" },
+    // Completed in a prior month
+    { id:"a5", requestId:"r13", approver:"Laura Nguyen", status:"Completed", completedDate:"2025-08-20", due:"2025-01-20" },
+    // Completed rejected outcome
+    { id:"a9", requestId:"r9", approver:"Elena Ruiz", status:"Completed", completedDate:"2025-05-02", due:"2025-03-20" },
+    // Additional completed approvals for richer data
+    { id:"a10", requestId:"r6", approver:"Sarah Johnson", status:"Completed", completedDate:"2025-06-01", due:"2025-02-20" },
+    { id:"a11", requestId:"r12", approver:"Elena Ruiz", status:"Completed", completedDate:"2025-09-15", due:"2025-04-05" },
     { id:"a6", requestId:"r14", approver:"Karen Li", status:"Pending", due:"2025-02-20" },
     { id:"a7", requestId:"r16", approver:"Karen Li", status:"Pending", due:"2025-05-07" },
     { id:"a8", requestId:"r19", approver:"Elena Ruiz", status:"Pending", due:"2025-05-22" }
+  ],
+  events: [
+    { id:"e1", title:"Interview – Research Tech", date:"2025-11-05", start:"10:00", end:"11:00", allDay:false, category:"interview", location:"Jefferson 210", notes:"Panel with 3 faculty" },
+    { id:"e2", title:"New Hire Start – HRIS Specialist", date:"2025-11-01", allDay:true, category:"newhire", location:"Smith Center" },
+    { id:"e3", title:"Onboarding Session", date:"2025-11-03", start:"09:00", end:"12:00", allDay:false, category:"onboard", location:"Training Room A" },
+    { id:"e4", title:"Dept Staff Meeting", date:"2025-11-07", start:"14:00", end:"15:00", allDay:false, category:"meeting", location:"Jefferson 120" }
   ],
   settings: { 
     notifications:true, 

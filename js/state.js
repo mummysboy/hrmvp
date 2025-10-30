@@ -2,7 +2,7 @@
 import { seed } from '../data/mock.js';
 
 // Use a single namespaced key; bump version to refresh seed when updated
-const STORAGE_KEY = 'hr.app.state.v2';
+const STORAGE_KEY = 'hr.app.state.v4';
 const LEGACY_KEYS = ['hrPortalState'];
 
 export function loadState() {
@@ -131,6 +131,30 @@ export function getApprovals(filters = {}) {
   }
   
   return approvals;
+}
+
+/**
+ * Calendar Events helpers
+ */
+export function getEvents(filters = {}) {
+  let events = get('events', []);
+  if (filters.date) events = events.filter(e => e.date === filters.date);
+  if (filters.category) events = events.filter(e => e.category === filters.category);
+  return events;
+}
+export function upsertEvent(event) {
+  const events = get('events', []);
+  const idx = events.findIndex(e => e.id === event.id);
+  if (idx >= 0) {
+    events[idx] = { ...events[idx], ...event };
+  } else {
+    const id = event.id || `e${Math.random().toString(36).slice(2,8)}`;
+    events.push({ ...event, id });
+  }
+  set('events', events);
+}
+export function removeEvent(id) {
+  set('events', get('events', []).filter(e => e.id !== id));
 }
 /**
  * People helpers

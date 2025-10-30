@@ -299,6 +299,11 @@
               <span class="apex-sidebar-text">My Requests</span>
             </a>
           </li>
+          <li class="apex-sidebar-item">
+            <a href="#" class="apex-sidebar-link" data-page="calendar" onclick="loadInPlace('#/requests/calendar'); return false;">
+              <span class="apex-sidebar-text">Calendar</span>
+            </a>
+          </li>
 
           <!-- Staff Folder Section -->
           <li class="apex-sidebar-section" style="margin-top: var(--spacing-lg); padding: 0 var(--spacing-md); color: #888; font-size: var(--font-size-base); letter-spacing: 0.03em; text-transform: uppercase; font-weight: var(--font-weight-semibold);">Staff</li>
@@ -395,7 +400,7 @@
         <div style="padding: var(--spacing-lg);">
           <h4 style="margin-bottom: var(--spacing-md);">Your Pending Approvals</h4>
           <div id="pending-approvals-preview"></div>
-          <button class="btn btn-ghost btn-block" style="margin-top: var(--spacing-md);" onclick="navigateTo('approvals.html')">
+          <button class="btn btn-ghost btn-block" style="margin-top: var(--spacing-md);" onclick="loadInPlace('#/approvals/pending')">
             Go to Approvals
           </button>
         </div>
@@ -404,38 +409,8 @@
       </main>
     </div>
 
-    <!-- Developer Footer -->
-    <footer class="apex-footer">
-      <div class="apex-footer-left">
-        <span>Release 1.0</span>
-      </div>
-      <div class="apex-footer-right">
-        <div class="apex-footer-item">
-          <span>Home</span>
-        </div>
-        <div class="apex-footer-item">
-          <span>App 293307</span>
-        </div>
-        <div class="apex-footer-item">
-          <span>Page 1</span>
-        </div>
-        <div class="apex-footer-item">
-          <span>Session</span>
-        </div>
-        <div class="apex-footer-item">
-          <span>Debug</span>
-        </div>
-        <div class="apex-footer-item">
-          <span>Quick Edit</span>
-        </div>
-        <div class="apex-footer-item">
-          <span>Customize</span>
-        </div>
-        <div class="apex-footer-item">
-          <span>Settings</span>
-        </div>
-      </div>
-    </footer>
+    <!-- Developer Footer (empty by request) -->
+    <footer class="apex-footer"></footer>
   </div>
 
   <!-- Scripts -->
@@ -503,11 +478,16 @@
 
         // Highlight the selected page based on the target path
         if (typeof ApexLayout !== 'undefined') {
-          const isDirectory = pagePath.includes('people/directory');
-          const match = pagePath.match(/([a-z-]+)\.html/i);
-          const baseName = match ? (match[1].includes('requests') ? 'requests' : match[1]) : 'dashboard';
-          const pageName = isDirectory ? 'directory' : baseName;
-          ApexLayout.setActiveItem(pageName);
+          // For approvals views loaded via SPA, do not highlight any sidebar item
+          if (typeof pagePath === 'string' && (pagePath.startsWith('#/approvals') || pagePath.includes('/approvals'))) {
+            try { document.querySelectorAll('.apex-sidebar-link').forEach(l => l.classList.remove('active')); } catch (_) {}
+          } else {
+            const isDirectory = pagePath.includes('people/directory');
+            const match = pagePath.match(/([a-z-]+)\.html/i);
+            const baseName = match ? (match[1].includes('requests') ? 'requests' : match[1]) : 'dashboard';
+            const pageName = isDirectory ? 'directory' : baseName;
+            ApexLayout.setActiveItem(pageName);
+          }
         }
       } catch (e) {
         console.error('Failed to load page in place:', e);
@@ -602,7 +582,7 @@
 
         // Update stats
         document.getElementById('pending-count').textContent = stats.pending;
-        document.getElementById('approved-count').textContent = stats.approved;
+        document.getElementById('approved-count').textContent = stats.approvedThisMonth;
         document.getElementById('draft-count').textContent = stats.draft;
         document.getElementById('total-count').textContent = stats.total;
 
@@ -771,7 +751,7 @@
       UIKit.modal.create('Pending Approvals', content, {
         className: 'modal-large',
         footer: `
-          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); navigateTo('approvals.html')">
+          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); loadInPlace('#/approvals/pending')">
             View All Approvals
           </button>
           <button class="btn btn-primary" onclick="UIKit.modal.closeAll()">Close</button>
@@ -786,7 +766,15 @@
         return;
       }
 
-      const approvedRequests = SessionStore.getRequests({ status: 'APPROVED' });
+      const allApproved = SessionStore.getRequests({ status: 'APPROVED' });
+      // Only show items approved this month in the popout
+      const now = new Date();
+      const month = now.getMonth();
+      const year = now.getFullYear();
+      const approvedRequests = allApproved.filter(req => {
+        const d = new Date(req.updatedAt || req.createdAt);
+        return d.getMonth() === month && d.getFullYear() === year;
+      });
       
       let content = '';
       if (approvedRequests.length === 0) {
@@ -818,7 +806,7 @@
       UIKit.modal.create('Completed Requests', content, {
         className: 'modal-large',
         footer: `
-          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); navigateTo('requests-list.html?status=APPROVED')">
+          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); loadInPlace('#/approvals/completed')">
             View All Completed
           </button>
           <button class="btn btn-primary" onclick="UIKit.modal.closeAll()">Close</button>
@@ -833,7 +821,15 @@
         return;
       }
 
-      const draftRequests = SessionStore.getRequests({ status: 'DRAFT' });
+      const allDrafts = SessionStore.getRequests({ status: 'DRAFT' });
+      // Only show drafts created this month in the popout
+      const now = new Date();
+      const month = now.getMonth();
+      const year = now.getFullYear();
+      const draftRequests = allDrafts.filter(req => {
+        const d = new Date(req.updatedAt || req.createdAt);
+        return d.getMonth() === month && d.getFullYear() === year;
+      });
       
       let content = '';
       if (draftRequests.length === 0) {
@@ -865,7 +861,7 @@
       UIKit.modal.create('Draft Requests', content, {
         className: 'modal-large',
         footer: `
-          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); navigateTo('requests-list.html?status=DRAFT')">
+          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); loadInPlace('requests-list.html?status=DRAFT')">
             View All Drafts
           </button>
           <button class="btn btn-primary" onclick="UIKit.modal.closeAll()">Close</button>
@@ -936,7 +932,7 @@
       UIKit.modal.create('System Overview', content, {
         className: 'modal-large',
         footer: `
-          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); navigateTo('requests-list.html')">
+          <button class="btn btn-secondary" onclick="UIKit.modal.closeAll(); loadInPlace('requests-list.html')">
             View All Requests
           </button>
           <button class="btn btn-primary" onclick="UIKit.modal.closeAll()">Close</button>

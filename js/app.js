@@ -45,6 +45,7 @@ import * as requestsChangePage from './pages/requests.change.js';
 import * as requestsLeavePage from './pages/requests.leave.js';
 import * as requestsOffboardPage from './pages/requests.offboard.js';
 import * as requestsListPage from './pages/requests.list.js';
+import * as requestsCalendarPage from './pages/requests.calendar.js';
 import * as approvalsPendingPage from './pages/approvals.pending.js';
 import * as approvalsCompletedPage from './pages/approvals.completed.js';
 import * as peopleDirectoryPage from './pages/people.directory.js';
@@ -64,6 +65,7 @@ const routes = {
   '/requests/leave': () => requestsLeavePage,
   '/requests/offboard': () => requestsOffboardPage,
   '/requests': () => requestsListPage,
+  '/requests/calendar': () => requestsCalendarPage,
   '/approvals/pending': () => approvalsPendingPage,
   '/approvals/completed': () => approvalsCompletedPage,
   '/people/directory': () => peopleDirectoryPage,

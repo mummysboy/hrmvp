@@ -2,7 +2,8 @@
 import { getUser, getRequests, getApprovals, updateItem, push, get, set } from '../state.js';
 import { navigate } from '../router.js';
 import { showToast } from '../ui/toast.js';
-import { showModal, showConfirmModal } from '../ui/modal.js';
+import { showModal, showConfirmModal, closeAllModals } from '../ui/modal.js';
+import { openDrawer, closeDrawer } from '../ui/drawer.js';
 
 export const title = 'Pending Approvals';
 
@@ -76,51 +77,36 @@ function showApprovalDetails(requestId, approvalId) {
   
   if (!request || !approval) return;
   
-  const drawer = document.createElement('div');
-  drawer.className = 'drawer';
-  drawer.innerHTML = `
-    <div class="drawer-header">
-      <h2>Review Request</h2>
-      <button class="drawer-close" aria-label="Close">&times;</button>
-    </div>
-    <div class="drawer-body">
-      <div class="card" style="margin: 0 0 1.5rem 0;">
-        <h3 style="margin-bottom: 1rem;">${request.title}</h3>
-        <div class="grid grid-2">
-          <div><strong>Type:</strong> ${request.type}</div>
-          <div><strong>Status:</strong> <span class="chip chip-pending">${request.status}</span></div>
-          <div><strong>Department:</strong> ${request.dept}</div>
-          <div><strong>Requester:</strong> ${request.requester}</div>
-          <div><strong>Submitted:</strong> ${new Date(request.submitted).toLocaleDateString()}</div>
-          <div><strong>Due:</strong> ${approval.due || 'N/A'}</div>
-        </div>
-        
-        ${request.details ? `
-          <div style="margin-top: 1.5rem;">
-            <h4>Details</h4>
-            ${Object.entries(request.details).map(([key, value]) => `
-              <div><strong>${formatKey(key)}:</strong> ${value}</div>
-            `).join('')}
-          </div>
-        ` : ''}
+  const content = `
+    <div class="card" style="margin: 0 0 1.5rem 0;">
+      <h3 style="margin-bottom: 1rem;">${request.title}</h3>
+      <div class="grid grid-2">
+        <div><strong>Type:</strong> ${request.type}</div>
+        <div><strong>Status:</strong> <span class="chip chip-pending">${request.status}</span></div>
+        <div><strong>Department:</strong> ${request.dept}</div>
+        <div><strong>Requester:</strong> ${request.requester}</div>
+        <div><strong>Submitted:</strong> ${new Date(request.submitted).toLocaleDateString()}</div>
+        <div><strong>Due:</strong> ${approval.due || 'N/A'}</div>
       </div>
-      
-      <div class="card" style="margin: 0 0 1.5rem 0;">
-        <h3 style="margin-bottom: 1rem;">Decision</h3>
-        <div class="flex gap-2" style="flex-wrap: wrap;">
-          <button class="btn btn-success" id="approve-btn">Approve</button>
-          <button class="btn btn-danger" id="reject-btn">Reject</button>
-          <button class="btn btn-secondary" id="request-changes-btn">Request Changes</button>
+      ${request.details ? `
+        <div style=\"margin-top: 1.5rem;\">
+          <h4>Details</h4>
+          ${Object.entries(request.details).map(([key, value]) => `
+            <div><strong>${formatKey(key)}:</strong> ${value}</div>
+          `).join('')}
         </div>
+      ` : ''}
+    </div>
+    <div class=\"card\" style=\"margin: 0 0 1.5rem 0;\">
+      <h3 style=\"margin-bottom: 1rem;\">Decision</h3>
+      <div class=\"flex gap-2\" style=\"flex-wrap: wrap;\"> 
+        <button class=\"btn btn-success\" id=\"approve-btn\">Approve</button>
+        <button class=\"btn btn-danger\" id=\"reject-btn\">Reject</button>
+        <button class=\"btn btn-secondary\" id=\"request-changes-btn\">Request Changes</button>
       </div>
     </div>
   `;
-  
-  document.body.appendChild(drawer);
-  
-  const closeDrawer = () => drawer.remove();
-  
-  drawer.querySelector('.drawer-close').addEventListener('click', closeDrawer);
+  openDrawer({ title: 'Review Request', content, width: 560 });
   
   document.getElementById('approve-btn').addEventListener('click', () => {
     handleApprovalAction('Approved', requestId, approvalId);
@@ -172,12 +158,14 @@ function handleApprovalAction(status, requestId, approvalId) {
       
       showToast(`Request ${status.toLowerCase()} successfully`, 'success');
       
-      // Close drawers and re-render
-      document.querySelectorAll('.drawer').forEach(d => d.remove());
-      document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
+      // Close drawers (overlay + content) and modals (fade)
+      try { closeDrawer(); } catch (_) {}
+      document.querySelectorAll('.drawer-overlay').forEach(o => o.remove());
+      closeAllModals();
       
-      // Navigate to dashboard to see updated list
-      setTimeout(() => navigate('/dashboard'), 500);
+      // Re-render current route to reflect updates while staying on page
+      const currentRoute = window.location.hash.slice(1) || '/approvals/pending';
+      setTimeout(() => navigate(currentRoute, false), 300);
     },
     onCancel: () => {}
   });
@@ -206,16 +194,16 @@ function handleApprovalAction(status, requestId, approvalId) {
         updateItem('requests', r => r.id === requestId, { status });
         showToast(`Request ${status.toLowerCase()} successfully`, 'success');
         
-        document.querySelectorAll('.drawer').forEach(d => d.remove());
-        document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-        setTimeout(() => navigate('/dashboard'), 500);
+        try { closeDrawer(); } catch (_) {}
+        document.querySelectorAll('.drawer-overlay').forEach(o => o.remove());
+        closeAllModals();
+        const currentRoute = window.location.hash.slice(1) || '/approvals/pending';
+        setTimeout(() => navigate(currentRoute, false), 300);
       });
     }
     
     if (cancelBtn) {
-      const closeModal = () => {
-        document.querySelectorAll('.modal-overlay').forEach(m => m.remove());
-      };
+      const closeModal = () => { closeAllModals(); };
       cancelBtn.addEventListener('click', closeModal);
     }
   }, 100);

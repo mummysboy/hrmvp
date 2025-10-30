@@ -86,6 +86,18 @@ export function showConfirmModal({ title, message, onConfirm, onCancel }) {
   });
 }
 
+// Fade out and remove all open modals (with overlay)
+export function closeAllModals() {
+  const overlays = Array.from(document.querySelectorAll('.modal-overlay'));
+  overlays.forEach((overlay) => {
+    overlay.style.animation = 'fadeIn var(--transition) reverse';
+  });
+  if (overlays.length > 0) {
+    setTimeout(() => overlays.forEach(o => o.remove()), 200);
+    document.body.style.overflow = '';
+  }
+}
+
 // Helper to attach modal handlers
 export function attachModalHandlers(modal, onConfirm, onCancel) {
   const confirmBtn = modal.querySelector('[data-action="confirm"]');

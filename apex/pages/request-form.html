@@ -198,6 +198,62 @@
       background-color: #F8F8F8 !important;
       border-color: #D0D0D0 !important;
     }
+
+    /* Autocomplete dropdown styles */
+    .autocomplete-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #E5E5E5;
+      border-radius: var(--radius-md);
+      margin-top: 4px;
+      max-height: 300px;
+      overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .autocomplete-item {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      border-bottom: 1px solid #F5F5F5;
+      transition: background-color 0.15s;
+    }
+
+    .autocomplete-item:hover {
+      background-color: #f0f7ff;
+    }
+
+    .autocomplete-item:last-child {
+      border-bottom: none;
+    }
+
+    .autocomplete-item-name {
+      font-weight: 600;
+      color: #2C2C2C;
+      margin-bottom: 0.25rem;
+    }
+
+    .autocomplete-item-details {
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    .btn-sm {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.875rem;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-sm:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
@@ -309,7 +365,10 @@
 
           <div class="form-group">
             <label class="label-required">Employee Name</label>
-            <input type="text" id="employeeName" placeholder="Name of person being promoted" required>
+            <div style="position: relative;">
+              <input type="text" id="employeeName" placeholder="Name of person being promoted" required autocomplete="off">
+              <div id="employeeSuggestions" class="autocomplete-dropdown" style="display: none;"></div>
+            </div>
           </div>
 
           <div class="form-group">
@@ -754,10 +813,12 @@
           requestData.employeeName = document.getElementById('employeeName')?.value || '';
           requestData.currentPosition = document.getElementById('currentPosition')?.value || '';
           requestData.promotedTo = document.getElementById('promotedTo')?.value || '';
+          requestData.employeeId = selectedEmployeeData?.id || '';
           console.log('📋 Promotion fields collected:', {
             employeeName: requestData.employeeName,
             currentPosition: requestData.currentPosition,
-            promotedTo: requestData.promotedTo
+            promotedTo: requestData.promotedTo,
+            employeeId: requestData.employeeId
           });
         } else if (requestType === 'SABBATICAL') {
           requestData.duration = document.getElementById('duration')?.value || '';
@@ -838,7 +899,17 @@
         reviewHtml += '</div>';
       } else if (data.type === 'PROMOTION') {
         reviewHtml += '<div class="review-section"><div class="review-section-title">Promotion Details</div>';
-        if (data.employeeName) reviewHtml += `<div class="review-field"><div class="review-field-label">Employee Name</div><div class="review-field-value">${escapeHtml(data.employeeName)}</div></div>`;
+        if (data.employeeName) {
+          // Check if we have employee data for avatar
+          let avatarHtml = '';
+          if (selectedEmployeeData) {
+            const initials = selectedEmployeeData.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            avatarHtml = `<div class="review-field"><div class="review-field-label">Employee Name</div><div class="review-field-value" style="display: flex; align-items: center; gap: 0.75rem;"><div style="width: 40px; height: 40px; border-radius: 50%; background: #A51C30; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; flex-shrink: 0;">${initials}</div>${escapeHtml(data.employeeName)}</div></div>`;
+          } else {
+            avatarHtml = `<div class="review-field"><div class="review-field-label">Employee Name</div><div class="review-field-value">${escapeHtml(data.employeeName)}</div></div>`;
+          }
+          reviewHtml += avatarHtml;
+        }
         if (data.currentPosition) reviewHtml += `<div class="review-field"><div class="review-field-label">Current Position</div><div class="review-field-value">${escapeHtml(data.currentPosition)}</div></div>`;
         if (data.promotedTo) reviewHtml += `<div class="review-field"><div class="review-field-label">Promoted To</div><div class="review-field-value">${escapeHtml(data.promotedTo)}</div></div>`;
         reviewHtml += '</div>';
@@ -1112,12 +1183,117 @@
     window.goBack = goBack;
     window.saveDraft = saveDraft;
 
+    // Initialize employee autocomplete
+    let selectedEmployeeData = null;
+    let employeeAutocompleteTimeout = null;
+
+    function setupEmployeeAutocomplete() {
+      const employeeInput = document.getElementById('employeeName');
+      const suggestions = document.getElementById('employeeSuggestions');
+      
+      if (!employeeInput) return;
+
+      employeeInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        
+        if (query.length < 2) {
+          suggestions.style.display = 'none';
+          return;
+        }
+
+        // Clear previous timeout
+        if (employeeAutocompleteTimeout) {
+          clearTimeout(employeeAutocompleteTimeout);
+        }
+
+        // Debounce search
+        employeeAutocompleteTimeout = setTimeout(() => {
+          searchEmployees(query);
+        }, 200);
+      });
+
+      // Close dropdown on outside click
+      document.addEventListener('click', (e) => {
+        if (!employeeInput.contains(e.target) && !suggestions.contains(e.target)) {
+          suggestions.style.display = 'none';
+        }
+      });
+
+    }
+
+    function searchEmployees(query) {
+      const suggestions = document.getElementById('employeeSuggestions');
+      
+      if (!SessionStore || !SessionStore.getPeople) {
+        console.warn('SessionStore not available for people search');
+        return;
+      }
+
+      const allPeople = SessionStore.getPeople() || [];
+      const matches = allPeople.filter(person => {
+        const searchText = query.toLowerCase();
+        const name = person.name.toLowerCase();
+        const email = (person.email || '').toLowerCase();
+        const title = (person.title || '').toLowerCase();
+        return name.includes(searchText) || email.includes(searchText) || title.includes(searchText);
+      }).slice(0, 8); // Limit to 8 results
+
+      if (matches.length === 0) {
+        suggestions.innerHTML = '<div class="autocomplete-item"><div>No employees found</div></div>';
+      } else {
+        suggestions.innerHTML = matches.map(person => `
+          <div class="autocomplete-item" data-person-id="${person.id}">
+            <div class="autocomplete-item-name">${person.name}</div>
+            <div class="autocomplete-item-details">${person.title} • ${person.dept}</div>
+          </div>
+        `).join('');
+
+        // Attach click handlers
+        suggestions.querySelectorAll('.autocomplete-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const personId = item.getAttribute('data-person-id');
+            const person = allPeople.find(p => p.id === personId);
+            if (person) {
+              selectEmployee(person);
+            }
+          });
+        });
+      }
+
+      suggestions.style.display = 'block';
+    }
+
+    function selectEmployee(person) {
+      const employeeInput = document.getElementById('employeeName');
+      const suggestions = document.getElementById('employeeSuggestions');
+      const currentPositionInput = document.getElementById('currentPosition');
+      
+      // Store employee data
+      selectedEmployeeData = person;
+      
+      // Hide suggestions and fill input
+      employeeInput.value = person.name;
+      suggestions.style.display = 'none';
+      
+      // Auto-fill current position
+      if (currentPositionInput) {
+        currentPositionInput.value = person.title;
+      }
+    }
+
+    function clearEmployeeSelection() {
+      const employeeInput = document.getElementById('employeeName');
+      if (employeeInput) employeeInput.value = '';
+      selectedEmployeeData = null;
+    }
+
     // Initialize on load
     document.addEventListener('DOMContentLoaded', function() {
       console.log('🚀 DOM loaded, initializing...');
       try {
         initializeForm();
         setupFormHandler();
+        setupEmployeeAutocomplete();
         console.log('✅ Initialization complete');
       } catch (error) {
         console.error('❌ Initialization error:', error);

@@ -27,7 +27,8 @@ function handleHashChange() {
 }
 
 export function navigate(route, pushState = true) {
-  if (route === currentRoute) return;
+  // If navigating to the same route, allow re-render when pushState=false (used for refresh)
+  if (route === currentRoute && pushState !== false) return;
   
   // Cleanup current page
   if (currentPage && currentPage.cleanup) {
@@ -38,10 +39,14 @@ export function navigate(route, pushState = true) {
   let matched = null;
   const routeKeys = Object.keys(routes);
   
+  // Prefer the most specific (longest) route key that matches
+  let bestLen = -1;
   for (const key of routeKeys) {
     if (key === route || route.startsWith(key + '/')) {
-      matched = key;
-      break;
+      if (key.length > bestLen) {
+        matched = key;
+        bestLen = key.length;
+      }
     }
   }
   
