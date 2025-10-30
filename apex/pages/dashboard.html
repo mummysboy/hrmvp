@@ -303,7 +303,7 @@
           <!-- Staff Folder Section -->
           <li class="apex-sidebar-section" style="margin-top: var(--spacing-lg); padding: 0 var(--spacing-md); color: #888; font-size: var(--font-size-base); letter-spacing: 0.03em; text-transform: uppercase; font-weight: var(--font-weight-semibold);">Staff</li>
           <li class="apex-sidebar-item">
-            <a href="#" class="apex-sidebar-link" data-page="directory" onclick="loadInPlace('people/directory.html'); return false;">
+            <a href="#" class="apex-sidebar-link" data-page="directory" onclick="loadInPlace('#/people/directory'); return false;">
               <span class="apex-sidebar-text">Directory</span>
             </a>
           </li>
@@ -466,8 +466,13 @@
         const content = document.querySelector('.apex-content');
         if (!content) return;
 
-        // Build URL with embed=true (and cache-busting v=2) before any hash (preserve existing query if any)
+        // Support direct SPA hash routes (e.g., '#/people/directory') to avoid extra HTML hops
         let url = pagePath;
+        if (typeof url === 'string' && url.startsWith('#/')) {
+          url = `../../index.html?embed=true${url}`;
+        }
+
+        // Build URL with embed=true (and cache-busting v=2) before any hash (preserve existing query if any)
         const hasEmbedFlag = /[?&#]embed=true/.test(url);
         if (!hasEmbedFlag) {
           if (url.includes('#')) {

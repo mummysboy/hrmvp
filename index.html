@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Harvard HR Portal - Manage requests, approvals, and personnel">
   <title>Harvard HR Portal</title>
+  <style>
+    /* Prevent flash of shell when embedding via ?embed=true */
+    html.pre-embed .header, html.pre-embed .sidebar { display: none !important; }
+  </style>
+  <script>
+    // Apply pre-embed class ASAP to avoid header/sidebar flash inside iframes
+    (function(){
+      try {
+        var href = window.location.href;
+        if (href.indexOf('embed=true') !== -1) {
+          document.documentElement.classList.add('pre-embed');
+        }
+      } catch (_) {}
+    })();
+  </script>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>

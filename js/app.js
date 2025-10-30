@@ -86,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (isEmbed) {
     document.body.classList.add('embed');
+    // Remove early pre-embed class once SPA styles are applied
+    try { document.documentElement.classList.remove('pre-embed'); } catch (_) {}
   } else {
     // Render sidebar only in full app mode
     renderSidebar();
