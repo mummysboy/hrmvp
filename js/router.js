@@ -68,11 +68,6 @@ export function navigate(route, pushState = true) {
     ? route.split('/').slice(1)
     : [];
   
-  // Smoothly transition content to avoid flicker during route changes
-  const previousTransition = container.style.transition;
-  container.style.transition = 'opacity 120ms ease';
-  container.style.opacity = '0';
-
   // Render page
   currentRoute = route;
   currentPage = pageFactory();
@@ -98,13 +93,6 @@ export function navigate(route, pushState = true) {
   
   // Scroll to top (instant to avoid flicker on heavy pages)
   window.scrollTo({ top: 0, behavior: 'auto' });
-
-  // Reveal the new content after render
-  requestAnimationFrame(() => {
-    container.style.opacity = '1';
-    // Restore any previous transition after the fade-in completes
-    setTimeout(() => { container.style.transition = previousTransition; }, 150);
-  });
 }
 
 

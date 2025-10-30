@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Directory</title>
+  <link rel="stylesheet" href="../../static/css/design-system.css">
+  <link rel="stylesheet" href="../../../css/styles.css">
+  <link rel="stylesheet" href="../../../css/directory.css">
+  <style>
+    body { margin: 0; padding: 0; background: var(--color-bg-primary, #fff); }
+    /* Minimal container to host the SPA content */
+    #app { padding: var(--spacing-lg, 16px); }
+  </style>
+</head>
+<body>
+  <div id="app" role="main" aria-label="People Directory"></div>
+
+  <script type="module">
+    // Ensure embed mode so the SPA doesn't render its own sidebar
+    (function ensureEmbedFlag() {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('embed') !== 'true') {
+        url.searchParams.set('embed', 'true');
+        window.history.replaceState(null, '', url.toString());
+      }
+    })();
+
+    // Force the SPA to load Directory regardless of any saved last route
+    const desiredRoute = '#/people/directory';
+    try {
+      // Keep router's lastRoute in sync for subsequent navigations
+      localStorage.setItem('lastRoute', '/people/directory');
+    } catch (_) {}
+    if (!window.location.hash || !window.location.hash.startsWith(desiredRoute)) {
+      window.location.hash = desiredRoute;
+    }
+  </script>
+  <script type="module" src="../../../js/app.js"></script>
+</body>
+<script></script>
+</html>
+
+

@@ -81,14 +81,8 @@ export function render(container) {
   if (sortEl) {
     sortEl.addEventListener('change', (e) => updateFilters({ sort: e.target.value }));
   }
-  const clearBtn = container.querySelector('#dir-clear');
-  if (clearBtn) {
-    clearBtn.addEventListener('click', () => { state = DEFAULT_FILTERS(); persistFilters(); render(container); });
-  }
-  const exportBtn = container.querySelector('#dir-export');
-  if (exportBtn) {
-    exportBtn.addEventListener('click', () => doExport());
-  }
+  container.querySelector('#dir-clear').addEventListener('click', () => { state = DEFAULT_FILTERS(); persistFilters(); render(container); });
+  container.querySelector('#dir-export').addEventListener('click', () => doExport());
 
   // Resize handling
   window.addEventListener('resize', onResize);
